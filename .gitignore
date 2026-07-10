@@ -1,0 +1,52 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories (If we use tools like webpack/vite later)
+node_modules/
+jspm_packages/
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Linux specific clutter
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local environment / Secrets (Crucial if we use translation API keys later)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build output (If we bundle or zip the extension for production)
+dist/
+out/
+*.zip
