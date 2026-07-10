@@ -2,11 +2,7 @@ let floatingIcon = null;
 let translateBox = null;
 let selectedTextGlobal = "";
 
-// Professional Approach: Listen for mouse/pointer release instead of continuous selection changes
-document.addEventListener('pointerup', handleTextSelection);
-
-function handleTextSelection() {
-    // 1. Guard Clause: Safely check extension runtime validity
+document.addEventListener('selectionchange', () => {
     try {
         if (!chrome.runtime || !chrome.runtime.id) return;
     } catch (e) {
@@ -17,26 +13,25 @@ function handleTextSelection() {
     const selection = window.getSelection();
     const text = selection.toString().trim();
     
-    // If no text is selected, stop execution immediately
-    if (!text) return;
+    if (!text) {
+        return;
+    }
     
     selectedTextGlobal = text;
     
-    // 2. Geometry Calculation
     const range = selection.getRangeAt(0);
     const rects = range.getClientRects();
     if (rects.length === 0) return;
     
     const lastRect = rects[rects.length - 1];
     
-    // If the main translation box is already open, do not show the small icon again
+    // If the main translation box is already open, don't show the small icon again
     if (translateBox) return;
 
-    // 3. Floating Action Button Management
     if (!floatingIcon) {
+        // Create the small cute cat floating action button as an image element
         floatingIcon = document.createElement('img');
         floatingIcon.id = 'gtranslate-floating-icon';
-        // Updated path alignment to match production repository structure
         floatingIcon.src = chrome.runtime.getURL('src/assets/icon48.png'); 
         document.body.appendChild(floatingIcon);
         
@@ -47,10 +42,10 @@ function handleTextSelection() {
         });
     }
     
-    // Position the icon near the selection coordinates safely
+    // Position the small floating icon right above or near the selection
     floatingIcon.style.left = `${lastRect.right + window.scrollX + 5}px`;
     floatingIcon.style.top = `${lastRect.bottom + window.scrollY + 5}px`;
-}
+});
 
 function showTranslationBox(rect) {
     if (floatingIcon) {
@@ -62,13 +57,14 @@ function showTranslationBox(rect) {
         translateBox = document.createElement('div');
         translateBox.id = 'gtranslate-main-box';
         
-        // Header Assembly
+        // Header with Header-Content wrapper to support top audio button layout
         const header = document.createElement('div');
         header.className = 'gtranslate-header';
 
         const headerTitleWrapper = document.createElement('div');
         headerTitleWrapper.className = 'gtranslate-header-title-wrapper';
 
+        // Create an image element for the cute cat icon
         const headerIcon = document.createElement('img');
         headerIcon.className = 'gtranslate-header-icon';
         headerIcon.src = chrome.runtime.getURL('src/assets/icon48.png'); 
@@ -80,7 +76,7 @@ function showTranslationBox(rect) {
         headerTitleWrapper.appendChild(headerText);
         header.appendChild(headerTitleWrapper);
 
-        // Audio Activation Component
+        // Audio Button moved to the top header right side
         const audioBtn = document.createElement('button');
         audioBtn.className = 'gtranslate-audio-btn';
         audioBtn.innerHTML = '🔊 <span>Listen</span>';
@@ -88,17 +84,18 @@ function showTranslationBox(rect) {
         
         translateBox.appendChild(header);
 
-        // Source Content View
+        // Original Text Section
         const sourceText = document.createElement('div');
         sourceText.className = 'gtranslate-source-text';
         sourceText.innerText = selectedTextGlobal;
         translateBox.appendChild(sourceText);
 
+        // Divider
         const divider = document.createElement('hr');
         divider.className = 'gtranslate-divider';
         translateBox.appendChild(divider);
         
-        // Translated Content View State
+        // Translation Content Section
         const targetText = document.createElement('div');
         targetText.className = 'gtranslate-target-text';
         targetText.innerText = 'Translating...';
@@ -110,7 +107,14 @@ function showTranslationBox(rect) {
             e.stopPropagation();
         });
 
-        // Event Interceptors
+        // 1. AUTOMATIC PLAYBACK: Play pronunciation immediately when the box opens
+        try {
+            chrome.runtime.sendMessage({ action: "play_audio", text: selectedTextGlobal });
+        } catch (err) {
+            console.warn("Auto-play failed or context invalidated:", err);
+        }
+
+        // 2. MANUAL PLAYBACK: Listen again when clicking the audio button
         audioBtn.addEventListener('click', (e) => {
             e.preventDefault();
             try {
@@ -120,7 +124,7 @@ function showTranslationBox(rect) {
             }
         });
 
-        // Communication Bridge to Background Service Worker
+        // Request translation from background
         try {
             chrome.runtime.sendMessage({ action: "translate_text", text: selectedTextGlobal }, (response) => {
                 if (response && response.success) {
@@ -134,11 +138,12 @@ function showTranslationBox(rect) {
         }
     }
     
+    // Position the main box nicely below the selection
     translateBox.style.left = `${rect.left + window.scrollX}px`;
     translateBox.style.top = `${rect.bottom + window.scrollY + 10}px`;
 }
 
-// Global dismiss clicks
+// Close everything when clicking outside
 document.addEventListener('mousedown', (e) => {
     if (floatingIcon && !floatingIcon.contains(e.target)) {
         floatingIcon.remove();
