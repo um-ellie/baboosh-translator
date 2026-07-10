@@ -1,0 +1,1 @@
+A browser extension that translates and pronounces selected text using Google Text-to-Speech (TTS) with a native American English accent.
