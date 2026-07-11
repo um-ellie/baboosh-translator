@@ -5,7 +5,7 @@
 
 ------------------------------------------------------------------------
 
-# 🐱 پروژه بابوش ترنسلیت (Baboosh Translate)
+# 🐱 پروژه ببوش ترنسلیت (Baboosh Translate)
 
 یک افزونه سبک، تمیز و بامزه برای کروم که با هدف راحت‌تر کردن مطالعه
 متن‌های انگلیسی طراحی شده است.
@@ -88,7 +88,7 @@ popup قابل انتخاب است. این تنظیمات را می‌توانی
 
 # 🐱 Baboosh Translate Project
 
-[فارسی](#پروژه-بابوش-ترنسلیت-baboosh-translate) \|
+[فارسی](#پروژه-ببوش-ترنسلیت-baboosh-translate) \|
 [English](#baboosh-translate-project)
 
 A lightweight, clean, and cute Chrome extension designed to make reading
