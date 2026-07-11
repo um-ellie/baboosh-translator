@@ -24,7 +24,12 @@
     border-radius: 14px !important;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.02) !important;
     z-index: 2147483647 !important;
-    width: 320px !important;
+    
+    /* ISSUE 2 FIX: Remove strict 320px width constraints. Dynamic fit configuration: */
+    min-width: 260px !important;
+    width: max-content !important;
+    max-width: 450px !important; 
+    
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
     display: flex !important;
     flex-direction: column !important;
@@ -60,31 +65,31 @@
 
 /* Original Selected Text Area */
 .gtranslate-source-text {
-    color: #64748b !important;
-    font-size: 13.5px !important;
+    color: #0f172a !important;
+    font-size: 17.5px !important;
     padding: 14px 14px 8px 14px !important;
     line-height: 1.5 !important;
     text-align: left !important;
     direction: ltr !important;
-    max-height: 80px !important;
-    overflow-y: auto !important;
-}
-
-.gtranslate-divider {
-    border: 0 !important;
-    border-top: 1px solid #f1f5f9 !important;
-    margin: 2px 0 !important;
+    white-space: normal !important;
+    word-break: break-word !important; /* Forces clean text wrapping wrapping wrapping */
+    
+    /* ISSUE 2 FIX: Remove hard max-height and scrolling properties to let box adapt naturally */
+    max-height: none !important;
+    overflow-y: visible !important;
 }
 
 /* Persian Translation Output Area */
 .gtranslate-target-text {
     color: #0f172a !important;
-    font-size: 15.5px !important;
+    font-size: 17.5px !important;
     font-weight: 500 !important;
     padding: 8px 14px 14px 14px !important;
     line-height: 1.6 !important;
     direction: rtl !important;
     text-align: right !important;
+    white-space: normal !important;
+    word-break: break-word !important;
 }
 
 /* Audio Action Button on Top Right */

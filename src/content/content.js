@@ -136,15 +136,53 @@ function showTranslationBox(rect) {
                 } else {
                     targetText.innerText = "Translation error.";
                 }
+                // Recalculate position dynamically if content height changed after translation text arrives
+                repositionBox(rect);
             });
         } catch (err) {
             targetText.innerText = "Error connecting to extension.";
         }
     }
     
-    // Position the main box nicely below the selection
-    translateBox.style.left = `${rect.left + window.scrollX}px`;
-    translateBox.style.top = `${rect.bottom + window.scrollY + 10}px`;
+    // Initial layout position calculation
+    repositionBox(rect);
+}
+
+// Extracted positioning into a reusable function to allow updates post-translation injection
+function repositionBox(rect) {
+    if (!translateBox) return;
+
+    const boxWidth = translateBox.offsetWidth;
+    const boxHeight = translateBox.offsetHeight;
+    
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+
+    // Default positioning: directly below the text selection bounding rectangle
+    let left = rect.left + scrollX;
+    let top = rect.bottom + scrollY + 8;
+
+    // ISSUE 1 FIX: If box overflows bottom viewport bounds, flip it cleanly ABOVE the selection text.
+    // We target rect.top to align the bottom of the popup box right above the chosen string.
+    if (top + boxHeight > scrollY + viewportHeight) {
+        top = rect.top + scrollY - boxHeight - 8;
+    }
+
+    // Safety edge bounds adjustments (Left & Right boundaries)
+    if (left + boxWidth > scrollX + viewportWidth) {
+        left = scrollX + viewportWidth - boxWidth - 16;
+    }
+    if (left < scrollX) {
+        left = scrollX + 16;
+    }
+    if (top < scrollY) {
+        top = scrollY + 8; // Extreme case fallback protection
+    }
+
+    translateBox.style.left = `${left}px`;
+    translateBox.style.top = `${top}px`;
 }
 
 // Close everything when clicking outside
