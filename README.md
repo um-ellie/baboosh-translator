@@ -1,11 +1,11 @@
 # 🐱 Baboosh Translate
 
 [فارسی](#پروژه-ببوش-ترنسلیت-baboosh-translate) \|
-[English](#beboosh-translate-project)
+[English](#baboosh-translate-project)
 
-------------------------------------------------------------------------
+---
 
-# 🐱 پروژه ببوش ترنسلیت (Beboosh Translate)
+# 🐱 پروژه ببوش ترنسلیت (Baboosh Translate)
 
 یک افزونه سبک، تمیز و بامزه برای کروم که با هدف راحت‌تر کردن مطالعه متن‌های انگلیسی طراحی شده است.
 
@@ -38,18 +38,18 @@
 می‌توانید به یکی از دو روش زیر افزونه را روی مرورگر خود نصب کنید:
 
 ### روش اول: نصب سریع از طریق فایل CRX (پیشنهادی)
-۱. ابتدا به بخش **Releases** در همین ریپازیتوری بروید و آخرین نسخه فایل با پسوند `.crx` را دانلود کنید.
-۲. مرورگر کروم را باز کنید و به آدرس `chrome://extensions/` بروید.
-۳. از گوشه بالا سمت راست، گزینه **Developer mode** را روشن کنید.
-۴. حالا فایل `.crx` دانلود شده را با ماوس بکشید و داخل همین صفحه افزونه‌ها رها کنید (Drag & Drop).
-۵. پیامی برای تایید نصب ظاهر می‌شود؛ روی **Add extension** کلیک کنید. کار تمام است!
+1. ابتدا به بخش **Releases** در همین ریپازیتوری بروید و آخرین نسخه فایل با پسوند `.crx` را دانلود کنید.
+2. مرورگر کروم را باز کنید و به آدرس `chrome://extensions/` بروید.
+3. از گوشه بالا سمت راست، گزینه **Developer mode** را روشن کنید.
+4. حالا فایل `.crx` دانلود شده را با ماوس بکشید و داخل همین صفحه افزونه‌ها رها کنید (Drag & Drop).
+5. پیامی برای تایید نصب ظاهر می‌شود؛ روی **Add extension** کلیک کنید. کار تمام است!
 
 ### روش دوم: بارگذاری به صورت دستی (Unpacked)
-۱. کل این ریپازیتوری را دانلود (یا Clone) کنید و فایل زیپ را روی سیستم خود Extract کنید.
-۲. مرورگر کروم را باز کنید و به آدرس `chrome://extensions/` بروید.
-۳. از گوشه بالا سمت راست، گزینه **Developer mode** را روشن کنید.
-۴. از گوشه بالا سمت چپ، دکمه **Load unpacked** را بزنید.
-۵. پوشه اصلی پروژه (جایی که فایل `manifest.json` قرار دارد) را انتخاب کنید.
+1. کل این ریپازیتوری را دانلود (یا Clone) کنید و فایل زیپ را روی سیستم خود Extract کنید.
+2. مرورگر کروم را باز کنید و به آدرس `chrome://extensions/` بروید.
+3. از گوشه بالا سمت راست، گزینه **Developer mode** را روشن کنید.
+4. از گوشه بالا سمت چپ، دکمه **Load unpacked** را بزنید.
+5. پوشه اصلی پروژه (جایی که فایل `manifest.json` قرار دارد) را انتخاب کنید.
 
 حالا به یک سایت خارجی بروید، متنی را انتخاب کنید و بگذارید ببوش کارش را انجام بدهد!  
 *(نکته: اگر بعد از نصب، در صفحه‌ای که از قبل باز بود کار نکرد، کافی است یک‌بار آن صفحه را Refresh کنید).*
@@ -62,12 +62,12 @@
 
 دوستتون دارم. مراقب خودتون باشید❤️🐈🦒🐘🐢🌳
 
-------------------------------------------------------------------------
+---
 
-# 🐱 Beboosh Translate Project
+# 🐱 Baboosh Translate Project
 
 [فارسی](#پروژه-ببوش-ترنسلیت-baboosh-translate) \|
-[English](#beboosh-translate-project)
+[English](#baboosh-translate-project)
 
 A lightweight, clean, and cute Chrome extension designed to make reading English texts easier.
 
@@ -113,7 +113,7 @@ You can install the extension using one of the following two methods:
 4. Click the **Load unpacked** button from the top-left corner.
 5. Choose the main project folder (the one containing the `manifest.json` file).
 
-Now go to any foreign website, select some text, and let Beboosh do its job!  
+Now go to any foreign website, select some text, and let Baboosh do its job!  
 *(Note: If it doesn't work on an already open tab right after installation, just refresh that page).*
 
 ## Future Plans and New Languages
