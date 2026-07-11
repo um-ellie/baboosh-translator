@@ -42,9 +42,37 @@ document.addEventListener('selectionchange', () => {
         });
     }
     
-    // Position the small floating icon right above or near the selection
-    floatingIcon.style.left = `${lastRect.right + window.scrollX + 5}px`;
-    floatingIcon.style.top = `${lastRect.bottom + window.scrollY + 5}px`;
+    // --- INTELLIGENT ICON POSITIONING ---
+    const iconSize = 34; // Matches the 34px width/height from style.css
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+
+    // Ideal position: slightly to the right and below the end of the text selection
+    let iconLeft = lastRect.right + scrollX + 5;
+    let iconTop = lastRect.bottom + scrollY + 5;
+
+    // Boundary Protection: Right edge
+    if (iconLeft + iconSize > scrollX + viewportWidth) {
+        iconLeft = scrollX + viewportWidth - iconSize - 10;
+    }
+    // Boundary Protection: Left edge
+    if (iconLeft < scrollX) {
+        iconLeft = scrollX + 10;
+    }
+    // Boundary Protection: Bottom edge
+    if (iconTop + iconSize > scrollY + viewportHeight) {
+        // Flip it above the text if it runs out of vertical space at the bottom
+        iconTop = lastRect.top + scrollY - iconSize - 5;
+    }
+    // Boundary Protection: Top edge
+    if (iconTop < scrollY) {
+        iconTop = scrollY + 10;
+    }
+
+    floatingIcon.style.left = `${iconLeft}px`;
+    floatingIcon.style.top = `${iconTop}px`;
 });
 
 function showTranslationBox(rect) {
@@ -164,8 +192,7 @@ function repositionBox(rect) {
     let left = rect.left + scrollX;
     let top = rect.bottom + scrollY + 8;
 
-    // ISSUE 1 FIX: If box overflows bottom viewport bounds, flip it cleanly ABOVE the selection text.
-    // We target rect.top to align the bottom of the popup box right above the chosen string.
+    // If box overflows bottom viewport bounds, flip it cleanly ABOVE the selection text.
     if (top + boxHeight > scrollY + viewportHeight) {
         top = rect.top + scrollY - boxHeight - 8;
     }
