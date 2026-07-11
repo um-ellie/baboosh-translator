@@ -107,11 +107,15 @@ function showTranslationBox(rect) {
             e.stopPropagation();
         });
 
-        // 1. AUTOMATIC PLAYBACK: Play pronunciation immediately when the box opens
+        // 1. CONDITIONAL AUTOMATIC PLAYBACK: Check preference before playing immediately
         try {
-            chrome.runtime.sendMessage({ action: "play_audio", text: selectedTextGlobal });
+            chrome.storage.sync.get({ audioPref: 'auto' }, (items) => {
+                if (items.audioPref === 'auto') {
+                    chrome.runtime.sendMessage({ action: "play_audio", text: selectedTextGlobal });
+                }
+            });
         } catch (err) {
-            console.warn("Auto-play failed or context invalidated:", err);
+            console.warn("Auto-play preference check failed or context invalidated:", err);
         }
 
         // 2. MANUAL PLAYBACK: Listen again when clicking the audio button

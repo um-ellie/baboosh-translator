@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Baboosh Translate Options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <img src="../assets/icon48.png" alt="Baboosh Icon">
+        <h2>Baboosh Extension Settings</h2>
+      </div>
+
+      <p class="section-title">Audio Behavior</p>
+      
+      <div class="option-group">
+        <label class="option-label">
+          <input type="radio" name="audioPref" value="auto" checked>
+          <div class="option-text">
+            <span class="option-title">Instant Pronunciation</span>
+            <span class="option-desc">Play pronunciation audio automatically as soon as the translation popup panel displays.</span>
+          </div>
+        </label>
+
+        <label class="option-label">
+          <input type="radio" name="audioPref" value="manual">
+          <div class="option-text">
+            <span class="option-title">On-Demand Only</span>
+            <span class="option-desc">Keep it quiet. The pronunciation audio will only trigger when you click the "Listen" button inside the panel.</span>
+          </div>
+        </label>
+      </div>
+
+      <div id="status" class="status"></div>
+    </div>
+
+    <div class="footer-links">
+      <a href="../about/about.html" class="about-link" id="aboutLink">
+        ℹ️ About Baboosh Translate
+      </a>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
