@@ -5,11 +5,11 @@
 ![Baboosh Translate Logo](src/assets/icon128.png)
 
 ### **Baboosh Translate**
-**A lightweight, cute, and intelligent Chrome Extension for English-to-Persian translation with standard American accent TTS.**
+**A lightweight, cute, and intelligent extension for Chrome & Firefox: English-to-Persian translation with standard American accent TTS.**
 
-**افزونهٔ هوشمند، سبک و دوست‌داشتنی کروم برای ترجمه متن‌های انگلیسی به فارسی و تلفظ صوتی با لهجهٔ آمریکایی.**
+**افزونهٔ هوشمند، سبک و دوست‌داشتنی برای کروم و فایرفاکس: ترجمه متن‌های انگلیسی به فارسی و تلفظ صوتی با لهجهٔ آمریکایی.**
 
-[ راهنمای فارسی](#-ببوش-ترنسلیت-فارسی) | [🇬🇧 English Guide](#-baboosh-translate-english)
+[فارسی](#ببوش-ترنسلیت-فارسی) | [English Guide](#baboosh-translate-english)
 
 ---
 
@@ -17,9 +17,9 @@
 
 ---
 
-#  ببوش ترنسلیت (فارسی)
+# ببوش ترنسلیت (فارسی)
 
-افزونه **ببوش ترنسلیت (Baboosh Translate)** یک ابزار کاربردی، تمیز و سبک برای مرورگر گوگل کروم است که مطالعهٔ متن‌های انگلیسی را در وب بسیار راحت‌تر و دلپذیرتر می‌کند.
+افزونه **ببوش ترنسلیت (Baboosh Translate)** یک ابزار کاربردی، تمیز و سبک برای مرورگرهای **گوگل کروم (Google Chrome)** و **موزیلا فایرفاکس (Mozilla Firefox)** است که مطالعهٔ متن‌های انگلیسی را در وب بسیار راحت‌تر و دلپذیرتر می‌کند.
 
 ---
 
@@ -50,13 +50,14 @@
 - 🐱 **آیکون شناور و هوشمند پیشی**: با انتخاب (Select) هر متنی در صفحه، آیکون بامزه پیشی ظاهر می‌شود.
 - 📐 **موقعیت‌یابی هوشمند (Smart Positioning)**: باکس ترجمه به گونه‌ای طراحی شده که هرگز از لبه‌های مرورگر بیرون نزند و روی متن اصلی قرار نگیرد.
 - ⚙️ **مدیریت پخش صدا (Instant / On-Demand)**: امکان فعال یا غیرفعال‌سازی پخش خودکار صدا هنگام باز شدن باکس ترجمه (قابل تغییر از منوی پاپ‌آپ یا صفحه تنظیمات).
+- 🦊🌐 **پشتیبانی از مرورگرهای کروم و فایرفاکس**: سازگاری کامل با Chrome و Firefox.
 - 🎨 **رابط کاربری مدرن**: طراحی زیبا، سبک و سازگار با سیستم‌عامل‌های مختلف.
 
 ---
 
 ## 🏗️ معماری فنی
 
-این افزونه بر پایه آخرین استاندارد گوگل (**Manifest V3**) توسعه داده شده است:
+این افزونه بر پایه آخرین استاندارد گوگل و موزیلا (**Manifest V3**) توسعه داده شده است:
 
 - **Service Worker پس‌زمینه (`src/background/background.js`)**: پردازش درخواست‌های ترجمه به صورت اسنکرون (Async) با مکانیزم Fallback برای تضمین دسترسی همیشگی به API ترجمه.
 - **دور زدن محدودیت‌های CORS/CSP صوتی**: تبدیل فایل‌های صوتی دریافتی به فرمت Base64 Data URL در Service Worker جهت پخش روان و بدون خطا در تمامی سایت‌ها.
@@ -66,18 +67,23 @@
 
 ## 🚀 راهنمای نصب
 
-به دلیل عدم داشتن حساب Developer گوگل در حال حاضر، این افزونه هنوز در Google Chrome Web Store قرار نگرفته است. اما می‌توانید به سادگی از دو روش زیر آن را نصب کنید:
+افزونه **ببوش ترنسلیت** هم در **فایرفاکس** و هم در **کروم** قابل استفاده است:
 
-### روش اول: نصب سریع با فایل CRX (پیشنهادی)
+### 🦊 مرورگر فایرفاکس (Firefox) - نصب مستقیم
+این افزونه به صورت رسمی در فروشگاه افزونه‌های فایرفاکس (Firefox Add-ons Store) قرار دارد و می‌توانید آن را به راحتی با یک کلیک نصب کنید:  
+👉 **[دریافت و نصب افزونه از فروشگاه رسمی فایرفاکس (AMO)](https://addons.mozilla.org/en-US/firefox/addon/baboosh-translate/)**
 
+### 🌐 مرورگر کروم (Google Chrome)
+به دلیل عدم داشتن حساب Developer گوگل در حال حاضر، این افزونه هنوز در Chrome Web Store قرار نگرفته است، اما می‌توانید از دو روش زیر آن را نصب کنید:
+
+#### روش اول: نصب سریع با فایل CRX (پیشنهادی)
 1. به بخش **[Releases](https://github.com/um-ellie/baboosh-translator/releases)** در همین ریپازیتوری بروید و آخرین نسخه فایل با پسوند `.crx` را دانلود کنید.
 2. مرورگر کروم را باز کرده و به آدرس `chrome://extensions/` بروید.
 3. از گوشه بالا سمت راست، گزینه **Developer mode** را روشن کنید.
 4. فایل `.crx` دانلود شده را با ماوس بکشید و داخل صفحه افزونه‌ها رها کنید (Drag & Drop).
 5. در پنجره باز شده روی دکمه **Add extension** کلیک کنید.
 
-### روش دوم: نصب دستی پوشه کد (Unpacked)
-
+#### روش دوم: نصب دستی پوشه کد (Unpacked)
 1. کل این ریپازیتوری را دانلود (یا `git clone`) کرده و فایل زیپ را Extract کنید.
 2. مرورگر کروم را باز کرده و به آدرس `chrome://extensions/` بروید.
 3. گزینه **Developer mode** را از بالا سمت راست فعال کنید.
@@ -123,9 +129,9 @@
 
 ---
 
-# 🇬🇧 Baboosh Translate (English)
+# Baboosh Translate (English)
 
-**Baboosh Translate** is a lightweight, clean, and adorable Google Chrome extension built to make reading English articles and web content effortless.
+**Baboosh Translate** is a lightweight, clean, and adorable extension for **Google Chrome** and **Mozilla Firefox** built to make reading English articles and web content effortless.
 
 ---
 
@@ -156,13 +162,14 @@ When using translation services like Google Translate outside the US, Google oft
 - 🐱 **Smart Floating Cat Action Icon**: Select any text on a webpage, and a cute cat icon pops up right beside your selection.
 - 📐 **Intelligent Viewport Boundary Control**: The translation popup box dynamically calculates layout bounds to prevent overflowing off-screen edges or obscuring original text.
 - ⚙️ **Flexible Audio Modes**: Choose between auto-play audio or on-demand manual audio playback.
+- 🦊🌐 **Chrome & Firefox Compatible**: Full cross-browser compatibility.
 - 🎨 **Clean & Modern UI**: Built with modern CSS, smooth visual components, and complete Manifest V3 compliance.
 
 ---
 
 ## 🏗️ Technical Architecture
 
-Developed using Chrome's modern **Manifest V3** framework:
+Developed using modern **Manifest V3** standards for Chrome and Firefox:
 
 - **Background Service Worker (`src/background/background.js`)**: Handles asynchronous API requests with automatic fallback endpoint switching between Google Translate gateways (`googleapis.com` and `google.as`).
 - **CORS / CSP Audio Handling**: Fetches audio ArrayBuffers and converts them to Base64 Data URLs inside the Service Worker to guarantee smooth audio playback across strict CSP web pages.
@@ -172,18 +179,23 @@ Developed using Chrome's modern **Manifest V3** framework:
 
 ## 🚀 Installation Guide
 
-Currently, this extension is not listed on the official Chrome Web Store. You can easily install it using either of the following two methods:
+**Baboosh Translate** supports both **Mozilla Firefox** and **Google Chrome**:
 
-### Method 1: Quick Install via CRX File (Recommended)
+### 🦊 Mozilla Firefox - Official Add-ons Store (Instant Install)
+The extension is officially published on the Firefox Add-ons Store. You can install it with a single click:  
+👉 **[Install Baboosh Translate from Firefox Add-ons (AMO)](https://addons.mozilla.org/en-US/firefox/addon/baboosh-translate/)**
 
+### 🌐 Google Chrome
+Since the extension is currently not listed on the Chrome Web Store, you can install it using either of the following two methods:
+
+#### Method 1: Quick Install via CRX File (Recommended)
 1. Go to the **[Releases](https://github.com/um-ellie/baboosh-translator/releases)** section of this repository and download the latest `.crx` file.
 2. Open Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** in the top-right corner.
 4. Drag and drop the downloaded `.crx` file directly into the extensions page.
 5. Click **Add extension** when prompted.
 
-### Method 2: Manual Installation (Unpacked Source)
-
+#### Method 2: Manual Installation (Unpacked Source)
 1. Download or `git clone` this repository to your local machine.
 2. Open Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** in the top-right corner.
