@@ -1,15 +1,37 @@
+@keyframes btFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes btSlideIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes btSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes btPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
 /* Small floating action button styling */
 #gtranslate-floating-icon {
     position: absolute !important;
-    width: 34px !important;
-    height: 34px !important;
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 50% !important;
     cursor: pointer !important;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.3) !important;
     z-index: 2147483647 !important;
     user-select: none !important;
     object-fit: cover !important;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    animation: btFadeIn 200ms forwards !important;
 }
 
 #gtranslate-floating-icon:hover {
@@ -19,35 +41,43 @@
 /* Main Google Translate Mimic Box */
 #gtranslate-main-box {
     position: absolute !important;
-    background-color: #ffffff !important;
-    border: none !important;
-    border-radius: 14px !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.02) !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(99, 102, 241, 0.12) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
     z-index: 2147483647 !important;
     
-    /* ISSUE 2 FIX: Remove strict 320px width constraints. Dynamic fit configuration: */
-    min-width: 260px !important;
+    min-width: 280px !important;
     width: max-content !important;
-    max-width: 450px !important; 
+    max-width: 460px !important; 
     
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
     display: flex !important;
     flex-direction: column !important;
     overflow: hidden !important;
-    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+    animation: btSlideIn 250ms ease-out forwards !important;
+}
+
+#gtranslate-main-box::before {
+    content: '' !important;
+    display: block !important;
+    height: 3px !important;
+    width: 100% !important;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa) !important;
 }
 
 /* Header layout updated to align items and support top audio button */
 .gtranslate-header {
-    background-color: #ffffff !important;
+    background-color: transparent !important;
     color: #1e293b !important;
-    padding: 10px 14px !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
+    padding: 12px 16px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    border-bottom: 1px solid #f1f5f9 !important;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.08) !important;
 }
 
 .gtranslate-header-title-wrapper {
@@ -57,35 +87,39 @@
 }
 
 .gtranslate-header-icon {
-    width: 22px !important;
-    height: 22px !important;
+    width: 24px !important;
+    height: 24px !important;
     object-fit: contain !important;
     border-radius: 4px !important;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)) !important;
 }
 
 /* Original Selected Text Area */
 .gtranslate-source-text {
-    color: #0f172a !important;
-    font-size: 17.5px !important;
-    padding: 14px 14px 8px 14px !important;
-    line-height: 1.5 !important;
+    color: #1e293b !important;
+    font-size: 16px !important;
+    padding: 14px 16px 10px 16px !important;
+    line-height: 1.55 !important;
     text-align: left !important;
     direction: ltr !important;
     white-space: normal !important;
-    word-break: break-word !important; /* Forces clean text wrapping wrapping wrapping */
-    
-    /* ISSUE 2 FIX: Remove hard max-height and scrolling properties to let box adapt naturally */
-    max-height: none !important;
-    overflow-y: visible !important;
+    word-break: break-word !important;
+}
+
+.gtranslate-divider {
+    height: 1px !important;
+    border: none !important;
+    background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.15), transparent) !important;
+    margin: 0 16px !important;
 }
 
 /* Persian Translation Output Area */
 .gtranslate-target-text {
-    color: #0f172a !important;
-    font-size: 17.5px !important;
+    color: #1e293b !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
-    padding: 8px 14px 14px 14px !important;
-    line-height: 1.6 !important;
+    padding: 10px 16px 16px 16px !important;
+    line-height: 1.65 !important;
     direction: rtl !important;
     text-align: right !important;
     white-space: normal !important;
@@ -94,26 +128,65 @@
 
 /* Audio Action Button on Top Right */
 .gtranslate-audio-btn {
-    background-color: #f1f5f9 !important;
-    color: #475569 !important;
+    background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
+    color: #ffffff !important;
     border: none !important;
     outline: none !important;
-    padding: 5px 10px !important;
-    font-size: 11px !important;
-    border-radius: 6px !important;
+    padding: 6px 12px !important;
+    font-size: 11.5px !important;
+    border-radius: 8px !important;
     cursor: pointer !important;
     display: flex !important;
     align-items: center !important;
     gap: 4px !important;
     font-weight: 600 !important;
-    transition: background-color 0.15s ease, color 0.15s ease !important;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3) !important;
+    transition: all 0.2s ease !important;
 }
 
 .gtranslate-audio-btn:hover {
-    background-color: #e2e8f0 !important;
-    color: #1e293b !important;
+    filter: brightness(1.1) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4) !important;
 }
 
 .gtranslate-audio-btn:active {
-    background-color: #cbd5e1 !important;
+    filter: brightness(0.95) !important;
+    transform: translateY(0) !important;
+}
+
+.gtranslate-audio-btn.btPlaying {
+    animation: btPulse 0.6s ease-in-out infinite !important;
+}
+
+/* Close Button */
+.gtranslate-close-btn {
+    background: transparent !important;
+    border: none !important;
+    color: #94a3b8 !important;
+    font-size: 18px !important;
+    cursor: pointer !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: 4px !important;
+    transition: all 0.15s ease !important;
+}
+
+.gtranslate-close-btn:hover {
+    background: rgba(99, 102, 241, 0.08) !important;
+    color: #6366f1 !important;
+}
+
+/* Spinner */
+.gtranslate-loading {
+    width: 12px !important;
+    height: 12px !important;
+    border: 2px solid #e0e7ff !important;
+    border-top-color: #6366f1 !important;
+    border-radius: 50% !important;
+    animation: btSpin 0.8s linear infinite !important;
 }

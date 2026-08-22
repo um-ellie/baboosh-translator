@@ -2,6 +2,41 @@ let floatingIcon = null;
 let translateBox = null;
 let selectedTextGlobal = "";
 
+// Play TTS audio by fetching data URL through background script (bypasses page CSP/CORS restrictions)
+function playAudio(text, btnElement = null) {
+    if (btnElement) btnElement.classList.add('btPlaying');
+
+    const removePlayingClass = () => {
+        if (btnElement) btnElement.classList.remove('btPlaying');
+    };
+
+    try {
+        chrome.runtime.sendMessage({ action: "get_audio", text: text }, (response) => {
+            if (response && response.success && response.audioDataUrl) {
+                const audio = new Audio(response.audioDataUrl);
+                
+                audio.play()
+                    .then(() => console.log("Audio playing successfully."))
+                    .catch(err => {
+                        console.error("Content script audio playback failed, trying background fallback:", err);
+                        // Fallback: ask background script to play audio directly if content script playback rejected
+                        chrome.runtime.sendMessage({ action: "play_audio_bg", text: text });
+                        removePlayingClass();
+                    });
+                    
+                audio.addEventListener('ended', removePlayingClass);
+                audio.addEventListener('error', removePlayingClass);
+            } else {
+                console.error("Failed to retrieve audio data URL from background:", response ? response.error : "No response");
+                removePlayingClass();
+            }
+        });
+    } catch (err) {
+        console.error("Audio messaging failed:", err);
+        removePlayingClass();
+    }
+}
+
 document.addEventListener('selectionchange', () => {
     try {
         if (!chrome.runtime || !chrome.runtime.id) return;
@@ -104,11 +139,29 @@ function showTranslationBox(rect) {
         headerTitleWrapper.appendChild(headerText);
         header.appendChild(headerTitleWrapper);
 
+        // Header actions wrapper
+        const headerActions = document.createElement('div');
+        headerActions.style.display = 'flex';
+        headerActions.style.alignItems = 'center';
+        headerActions.style.gap = '4px';
+
         // Audio Button moved to the top header right side
         const audioBtn = document.createElement('button');
         audioBtn.className = 'gtranslate-audio-btn';
         audioBtn.innerHTML = '🔊 <span>Listen</span>';
-        header.appendChild(audioBtn);
+        headerActions.appendChild(audioBtn);
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'gtranslate-close-btn';
+        closeBtn.innerHTML = '×';
+        closeBtn.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            e.stopPropagation(); 
+            removeAllPopups(); 
+        });
+        headerActions.appendChild(closeBtn);
+        
+        header.appendChild(headerActions);
         
         translateBox.appendChild(header);
 
@@ -126,7 +179,9 @@ function showTranslationBox(rect) {
         // Translation Content Section
         const targetText = document.createElement('div');
         targetText.className = 'gtranslate-target-text';
-        targetText.innerText = 'Translating...';
+        const spinner = document.createElement('div');
+        spinner.className = 'gtranslate-loading';
+        targetText.appendChild(spinner);
         translateBox.appendChild(targetText);
         
         document.body.appendChild(translateBox);
@@ -139,7 +194,7 @@ function showTranslationBox(rect) {
         try {
             chrome.storage.sync.get({ audioPref: 'auto' }, (items) => {
                 if (items.audioPref === 'auto') {
-                    chrome.runtime.sendMessage({ action: "play_audio", text: selectedTextGlobal });
+                    playAudio(selectedTextGlobal, audioBtn);
                 }
             });
         } catch (err) {
@@ -150,15 +205,16 @@ function showTranslationBox(rect) {
         audioBtn.addEventListener('click', (e) => {
             e.preventDefault();
             try {
-                chrome.runtime.sendMessage({ action: "play_audio", text: selectedTextGlobal });
+                playAudio(selectedTextGlobal, audioBtn);
             } catch (err) {
-                console.warn("Context invalidated.");
+                console.warn("Audio playback failed:", err);
             }
         });
 
         // Request translation from background
         try {
             chrome.runtime.sendMessage({ action: "translate_text", text: selectedTextGlobal }, (response) => {
+                targetText.innerHTML = '';
                 if (response && response.success) {
                     targetText.innerText = response.translation;
                 } else {
@@ -168,6 +224,7 @@ function showTranslationBox(rect) {
                 repositionBox(rect);
             });
         } catch (err) {
+            targetText.innerHTML = '';
             targetText.innerText = "Error connecting to extension.";
         }
     }
