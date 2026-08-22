@@ -46,7 +46,11 @@ desktop.ini
 .env.test.local
 .env.production.local
 
-# Build output (If we bundle or zip the extension for production)
+# Build output & Extension packages (CRX packages, private keys, zip files)
 dist/
 out/
+build/
 *.zip
+*.crx
+*.pem
+

@@ -1,181 +1,223 @@
-# 🐱 Baboosh Translate
+# 🐱 Baboosh Translate | ببوش ترنسلیت
 
+<div align="center">
 
-فارسی | English
+![Baboosh Translate Logo](src/assets/icon128.png)
 
----
-# ببوش ترنسلیت
+### **Baboosh Translate**
+**A lightweight, cute, and intelligent Chrome Extension for English-to-Persian translation with standard American accent TTS.**
 
-یک افزونه سبک، تمیز و بامزه برای کروم که با هدف راحت‌تر کردن مطالعه
-متن‌های انگلیسی طراحی شده.
+**افزونهٔ هوشمند، سبک و دوست‌داشتنی کروم برای ترجمه متن‌های انگلیسی به فارسی و تلفظ صوتی با لهجهٔ آمریکایی.**
 
-مهم‌ترین مزیت این extension حل مشکل نبود لحجه آمریکای در لوکیشن های دیگه است. اگر شما با ip لوکیشن جایی به غیر آمریکا وصل بشید. گوگل فقط لحجه بریتیش را برای شما فعال می کنه.
-اما با ببوش ترنسلیت، بدون توجه به موقعیت مکانی کاربر،
-می تونید از لهجه آمریکایی برای تلفظ استفاده ‌کنید.
-البته لهجه بریتیش هم به زودی به آن اضافه می‌کنم. که قابل انتخاب باشه.
-
-در حال حاضر فقط قابلیت ترجمه و تلفظ از زبان انگلیسی به فارسی را دارد.
-زبان‌های دیگر هم به زودی بهش اضافه می کنم
-
-کافیه یک متنی را در صفحه وب انتخاب (Select) کنید تا آیکون پیشی
-کوچولو ظاهر بشه. با کلیک روی اون، همزمان که تلفظ صوتی متن (با لهجه
-آمریکایی از طریق API گوگل) پخش می‌شود، ترجمه فارسی روان آن را هم در یک باکس
-مشاهده می‌کنید.
-
-این باکس کاملاً هوشمند طراحی شده و خودش را طوری تنظیم می‌کند که هیچ‌وقت از
-لبه‌های صفحه بیرون نزنه و یا روی متن اصلی قرار نگیره.
-
-قابلیت بخش صدا: اینکه بعد از کلیک روی آیکون popup و یا بعد از باز شدن باکس
-popup بخش بشه، قابل انتخابه. این تنظیمات را می‌تونید از صفحه options یا منوی
-اصلی extension تغییر بدید.
-
-این پروژه بیشتر برای من یک پروژه تمرینی برای JavaScript است. خوشحال
-میشم که تستش کنید، مشکلاتش را به من بگید، یا اگر خوشتن اومد پیشنهاد بدید که چه ویژگی‌هایی دوست دارید به اون اضافه کنم.
-
-ایمیل من هم تو صفحه about قرار داره.
-
-## معماری فنی
-
-این افزونه بر پایه **Manifest V3** توسعه داده شده است.
-
-برای پخش صوت از Chrome Offscreen Document استفاده می‌کند تا با قوانین
-امنیتی جدید کروم تداخلی نداشته باشد.
-
-درخواست‌های ترجمه هم به صورت Async از طریق Service Worker به API گوگل
-ارسال می‌شوند.
-
-# روش نصب
-
-از آنجایی که در حال حاضر اکانت Developer گوگل ندارم، نتونستم افزونه را به صورت رسمی در Google Web Store منتشر کنم. ببخشید.
-ولی دو تا روش هست که می تونید راحت از افزونه استفاده کنید.
-
-### روش اول: نصب سریع از طریق فایل CRX (پیشنهادی)
-
-
-1. ابتدا به بخش **Releases** در همین ریپازیتوری بروید و آخرین نسخه فایل با پسوند `.crx` را دانلود کنید.
-2. مرورگر کروم را باز کنید و به آدرس `chrome://extensions/` بروید.
-3. از گوشه بالا سمت راست، گزینه **Developer mode** را روشن کنید.
-4. حالا فایل `.crx` دانلود شده را با ماوس بکشید و داخل همین صفحه افزونه‌ها رها کنید (Drag & Drop).
-5. پیامی برای تایید نصب ظاهر می‌شود؛ روی **Add extension** کلیک کنید. کار تمام است!
-
-### روش دوم: بارگذاری به صورت دستی (Unpacked)
-
-
-1. کل این ریپازیتوری را دانلود (یا Clone) کنید و فایل زیپ را روی سیستم خود Extract کنید.
-2. مرورگر کروم را باز کنید و به آدرس `chrome://extensions/` بروید.
-3. از گوشه بالا سمت راست، گزینه **Developer mode** را روشن کنید.
-4. از گوشه بالا سمت چپ، دکمه **Load unpacked** را بزنید.
-5. پوشه اصلی پروژه (جایی که فایل `manifest.json` قرار دارد) را انتخاب کنید.
-
-حالا به یک سایت خارجی بروید، متنی را انتخاب کنید و بگذارید ببوش کارش را انجام بدهد!
-
-# خطاها:
-_(نکته: اگر بعد از نصب، در صفحه‌ای که از قبل باز بود کار نکرد، کافی است یک‌بار آن صفحه را Refresh کنید)._
-
-## برنامه‌های آینده و زبان‌های جدید
-
-این پروژه همچنان در حال توسعه است و به زودی زبان‌های دیگری را هم به آن
-اضافه می‌کنم.
-
-منتظر آپدیت‌های بعدی باشید!
-
-دوستتون دارم. مراقب خودتون باشید❤️🐈🦒🐘🐢🌳
+[ راهنمای فارسی](#-ببوش-ترنسلیت-فارسی) | [🇬🇧 English Guide](#-baboosh-translate-english)
 
 ---
 
+</div>
 
-# Baboosh Translate
+---
 
-A lightweight, clean, and cute Chrome extension designed to make reading
-English texts easier.
+#  ببوش ترنسلیت (فارسی)
 
-The biggest advantage of this extension is solving the problem of not having
-an American accent available in different locations. If you connect with an IP
-from a location outside the United States, Google only enables the British
-accent for you.
+افزونه **ببوش ترنسلیت (Baboosh Translate)** یک ابزار کاربردی، تمیز و سبک برای مرورگر گوگل کروم است که مطالعهٔ متن‌های انگلیسی را در وب بسیار راحت‌تر و دلپذیرتر می‌کند.
 
-But with Baboosh Translate, regardless of the user's location, you can use an
-American accent for pronunciation.
+---
 
-Of course, I will add the British accent soon as well, so users can choose
-between them.
+## 📌 فهرست مطالب (فارسی)
+- [مهم‌ترین مزیت افزونه](#مهمترین-مزیت-افزونه)
+- [ویژگی‌های اصلی](#ویژگیهای-اصلی)
+- [معماری فنی](#معماری-فنی)
+- [راهنمای نصب](#راهنمای-نصب)
+- [تنظیمات و سفارشی‌سازی](#تنظیمات-و-سفارشی‌سازی)
+- [عیب‌یابی و نکات مهم](#عیب‌یابی-و-نکات-مهم)
+- [برنامه‌های آینده](#برنامه‌های-آینده)
+- [درباره پروژه و یادبود](#درباره-پروژه-و-یادبود)
 
-Currently, it only supports translation and pronunciation from English to
-Persian. Other languages will be added soon.
+---
 
-Simply select a text on a webpage, and the little cat icon will appear.
-By clicking on it, while the audio pronunciation of the text (with an American
-accent through Google's API) is played, you can also see its smooth Persian
-translation inside a popup box.
+## 🌟 مهم‌ترین مزیت افزونه
 
-This popup box is designed to be completely smart. It automatically adjusts
-its position so it never goes outside the screen edges and never covers the
-original text.
+بزرگ‌ترین مشکل در سرویس‌های آنلاین ترجمه (مانند Google Translate) این است که با اتصال از برخی کشورها یا تغییر IP، گوگل به صورت خودکار لهجه بریتانیایی (British Accent) را برای تلفظ صوتی اعمال می‌کند و انتخاب لهجه آمریکایی غیرفعال می‌شود.
 
-## Audio Feature
+**ببوش ترنسلیت** این مشکل را به طور کامل حل کرده است! بدون توجه به موقعیت مکانی یا IP شما، تلفظ صوتی متن همیشه با **لهجهٔ استاندارد آمریکایی (en-US)** پخش می‌شود.
 
-You can choose whether the pronunciation starts immediately after clicking the
-popup icon, or after the popup box is opened.
+---
 
-You can change this setting from the options page or the main extension menu.
+## ✨ ویژگی‌های اصلی
 
-This project is mostly a practice project for me to improve my JavaScript
-skills.
+- 🎙️ **تلفظ با لهجه دقیق آمریکایی**: پخش صدای انگلیسی با لهجهٔ آمریکایی از طریق Google TTS API بدون محدودیت جغرافیایی.
+- 🌐 **ترجمه روان به فارسی**: ترجمهٔ سریع و دقیق کلمات و جملات انگلیسی به فارسی.
+- 🐱 **آیکون شناور و هوشمند پیشی**: با انتخاب (Select) هر متنی در صفحه، آیکون بامزه پیشی ظاهر می‌شود.
+- 📐 **موقعیت‌یابی هوشمند (Smart Positioning)**: باکس ترجمه به گونه‌ای طراحی شده که هرگز از لبه‌های مرورگر بیرون نزند و روی متن اصلی قرار نگیرد.
+- ⚙️ **مدیریت پخش صدا (Instant / On-Demand)**: امکان فعال یا غیرفعال‌سازی پخش خودکار صدا هنگام باز شدن باکس ترجمه (قابل تغییر از منوی پاپ‌آپ یا صفحه تنظیمات).
+- 🎨 **رابط کاربری مدرن**: طراحی زیبا، سبک و سازگار با سیستم‌عامل‌های مختلف.
 
-I would be happy if you test it, tell me about its problems, or if you like
-it, suggest what features you would like to see added in the future.
+---
 
-My email address is also available on the About page.
+## 🏗️ معماری فنی
 
-## Technical Architecture
+این افزونه بر پایه آخرین استاندارد گوگل (**Manifest V3**) توسعه داده شده است:
 
-This extension is developed based on **Manifest V3**.
+- **Service Worker پس‌زمینه (`src/background/background.js`)**: پردازش درخواست‌های ترجمه به صورت اسنکرون (Async) با مکانیزم Fallback برای تضمین دسترسی همیشگی به API ترجمه.
+- **دور زدن محدودیت‌های CORS/CSP صوتی**: تبدیل فایل‌های صوتی دریافتی به فرمت Base64 Data URL در Service Worker جهت پخش روان و بدون خطا در تمامی سایت‌ها.
+- **ذخیره‌سازی همگام (`Chrome Storage API`)**: همگام‌سازی تنظیمات کاربر (پخش خودکار/دستی صدا) بین منوی Popup، صفحه Options و Content Script.
 
-For audio playback, it uses Chrome Offscreen Document to avoid conflicts with
-the new Chrome security rules.
+---
 
-Translation requests are sent asynchronously to Google's API through a Service
-Worker.
+## 🚀 راهنمای نصب
 
-# Installation
+به دلیل عدم داشتن حساب Developer گوگل در حال حاضر، این افزونه هنوز در Google Chrome Web Store قرار نگرفته است. اما می‌توانید به سادگی از دو روش زیر آن را نصب کنید:
 
-Since I currently don't have a Google Developer account, I couldn't publish
-the extension officially on the Google Web Store. Sorry about that.
+### روش اول: نصب سریع با فایل CRX (پیشنهادی)
 
-But there are two easy ways to use the extension.
+1. به بخش **[Releases](https://github.com/um-ellie/baboosh-translator/releases)** در همین ریپازیتوری بروید و آخرین نسخه فایل با پسوند `.crx` را دانلود کنید.
+2. مرورگر کروم را باز کرده و به آدرس `chrome://extensions/` بروید.
+3. از گوشه بالا سمت راست، گزینه **Developer mode** را روشن کنید.
+4. فایل `.crx` دانلود شده را با ماوس بکشید و داخل صفحه افزونه‌ها رها کنید (Drag & Drop).
+5. در پنجره باز شده روی دکمه **Add extension** کلیک کنید.
 
-## Method 1: Quick installation using the CRX file (Recommended)
+### روش دوم: نصب دستی پوشه کد (Unpacked)
 
+1. کل این ریپازیتوری را دانلود (یا `git clone`) کرده و فایل زیپ را Extract کنید.
+2. مرورگر کروم را باز کرده و به آدرس `chrome://extensions/` بروید.
+3. گزینه **Developer mode** را از بالا سمت راست فعال کنید.
+4. از بالا سمت چپ روی دکمه **Load unpacked** کلیک کنید.
+5. پوشه اصلی پروژه (پوشه‌ای که فایل `manifest.json` در آن قرار دارد) را انتخاب کنید.
 
-1. First, go to the **Releases** section in this repository and download the
-   latest `.crx` file.
-2. Open Chrome and go to `chrome://extensions/`.
-3. Enable **Developer mode** from the top-right corner.
-4. Drag and drop the downloaded `.crx` file into the extensions page.
-5. A confirmation message will appear. Click **Add extension**. Done!
+> **نکته:** پس از نصب، اگر افزونه در صفحاتی که از قبل باز بوده‌اند کار نکرد، کافی است یک بار آن صفحه را Refresh کنید.
 
-## Method 2: Manual installation (Unpacked)
+---
 
+## ⚙️ تنظیمات و سفارشی‌سازی
 
-1. Download (or Clone) this entire repository and extract the ZIP file on your
-   system.
-2. Open Chrome and go to `chrome://extensions/`.
-3. Enable **Developer mode** from the top-right corner.
-4. Click the **Load unpacked** button from the top-left corner.
-5. Select the main project folder (the folder containing the
-   `manifest.json` file).
+شما می‌توانید رفتار پخش صدا را مطابق میل خود تغییر دهید:
+- **Instant Pronunciation (پخش فوری)**: به محض کلیک روی آیکون و باز شدن باکس ترجمه، تلفظ صوتی پخش می‌شود.
+- **On-Demand Only (پخش دستی)**: صدا فقط زمانی پخش می‌شود که روی دکمه **Listen** کلیک کنید.
 
-Now go to a foreign website, select some text, and let Baboosh do its job!
+این تنظیمات از طریق منوی **Popup** (کلیک روی آیکون افزونه در شريط مرورگر) و همچنین **Options Page** به راحتی قابل تغییر است.
 
-# Errors
+---
 
-_(Note: If it does not work on a page that was already open before
-installation, simply refresh that page once.)_
+## 🔮 برنامه‌های آینده
 
-## Future Plans and New Languages
+- 🇬🇧 اضافه کردن امکان انتخاب لهجه بریتانیایی (British Accent).
+- 🌍 پشتیبانی از ترجمه به سایر زبان‌های دنیا.
+- ⌨️ اضافه کردن کلیدهای میانبر (Keyboard Shortcuts) جهت ترجمه سریع‌تر.
 
-This project is still under development, and I will add more languages soon.
+---
 
-Stay tuned for future updates!
+## 💌 درباره پروژه و یادبود
 
-Love you all. Take care of yourselves ❤️🐈🦒🐘🐢🌳
+نام این پروژه به یاد گربهٔ عزیز و دوست‌داشتنی به نام **ببوش (Baboosh)** انتخاب شده است.  
+این افزونه همچنین پروژه‌ای دلی و تمرینی برای ارتقای مهارت‌های JavaScript است.
+
+- **سازنده:** Ellie
+- **ایمیل پشتیبانی:** umellie8@gmail.com
+- **ریپازیتوری گیت‌هاب:** [github.com/um-ellie/baboosh-translator](https://github.com/um-ellie/baboosh-translator)
+
+*با عشق و احترام ❤️🐈*
+
+---
+
+<br>
+
+---
+
+# 🇬🇧 Baboosh Translate (English)
+
+**Baboosh Translate** is a lightweight, clean, and adorable Google Chrome extension built to make reading English articles and web content effortless.
+
+---
+
+## 📌 Table of Contents (English)
+- [Core Value Proposition](#core-value-proposition)
+- [Key Features](#key-features-1)
+- [Technical Architecture](#technical-architecture-1)
+- [Installation Guide](#installation-guide-1)
+- [Settings & Customization](#settings--customization-1)
+- [Troubleshooting](#troubleshooting-1)
+- [Future Roadmap](#future-roadmap)
+- [Author & Dedication](#author--dedication)
+
+---
+
+## 🌟 Core Value Proposition
+
+When using translation services like Google Translate outside the US, Google often defaults to the British accent for TTS audio playback and restricts access to the American accent based on IP location.
+
+**Baboosh Translate** solves this location constraint! Regardless of your IP or geographical region, audio pronunciation is guaranteed to use the **standard American accent (en-US)** via Google TTS.
+
+---
+
+## ✨ Key Features
+
+- 🎙️ **Standard American Accent TTS**: Always plays clear American pronunciation via Google TTS API regardless of location.
+- 🌐 **Fluent Persian Translation**: Instantly translates selected English text into natural Persian.
+- 🐱 **Smart Floating Cat Action Icon**: Select any text on a webpage, and a cute cat icon pops up right beside your selection.
+- 📐 **Intelligent Viewport Boundary Control**: The translation popup box dynamically calculates layout bounds to prevent overflowing off-screen edges or obscuring original text.
+- ⚙️ **Flexible Audio Modes**: Choose between auto-play audio or on-demand manual audio playback.
+- 🎨 **Clean & Modern UI**: Built with modern CSS, smooth visual components, and complete Manifest V3 compliance.
+
+---
+
+## 🏗️ Technical Architecture
+
+Developed using Chrome's modern **Manifest V3** framework:
+
+- **Background Service Worker (`src/background/background.js`)**: Handles asynchronous API requests with automatic fallback endpoint switching between Google Translate gateways (`googleapis.com` and `google.as`).
+- **CORS / CSP Audio Handling**: Fetches audio ArrayBuffers and converts them to Base64 Data URLs inside the Service Worker to guarantee smooth audio playback across strict CSP web pages.
+- **Synchronized Storage (`Chrome Storage API`)**: Keeps user audio preferences seamlessly updated between the Popup menu, Options page, and Content Script.
+
+---
+
+## 🚀 Installation Guide
+
+Currently, this extension is not listed on the official Chrome Web Store. You can easily install it using either of the following two methods:
+
+### Method 1: Quick Install via CRX File (Recommended)
+
+1. Go to the **[Releases](https://github.com/um-ellie/baboosh-translator/releases)** section of this repository and download the latest `.crx` file.
+2. Open Chrome and navigate to `chrome://extensions/`.
+3. Enable **Developer mode** in the top-right corner.
+4. Drag and drop the downloaded `.crx` file directly into the extensions page.
+5. Click **Add extension** when prompted.
+
+### Method 2: Manual Installation (Unpacked Source)
+
+1. Download or `git clone` this repository to your local machine.
+2. Open Chrome and navigate to `chrome://extensions/`.
+3. Enable **Developer mode** in the top-right corner.
+4. Click the **Load unpacked** button in the top-left corner.
+5. Select the main project folder (the directory containing `manifest.json`).
+
+> **Note:** If the extension does not trigger on web pages that were open prior to installation, simply reload (refresh) those tabs once.
+
+---
+
+## ⚙️ Settings & Customization
+
+You can easily adjust the audio behavior based on your preference:
+- **Instant Pronunciation**: Plays pronunciation audio automatically as soon as the translation popup panel displays.
+- **On-Demand Only**: Plays audio only when you explicitly click the **Listen** button.
+
+Toggle this setting anytime from the extension's **Popup Menu** or **Options Page**.
+
+---
+
+## 🔮 Future Roadmap
+
+- 🇬🇧 Option to switch to British Accent pronunciation.
+- 🌍 Support for additional target translation languages.
+- ⌨️ Customizable keyboard shortcuts for instant translation.
+
+---
+
+## 💌 Author & Dedication
+
+The name of this application is dedicated in loving memory of a sweet cat named **Baboosh**.
+
+- **Developer:** Ellie
+- **Support Email:** umellie8@gmail.com
+- **GitHub Repository:** [github.com/um-ellie/baboosh-translator](https://github.com/um-ellie/baboosh-translator)
+
+*Made with love ❤️🐈*
