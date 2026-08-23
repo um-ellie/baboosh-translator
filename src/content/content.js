@@ -1,9 +1,27 @@
 let floatingIcon = null;
 let translateBox = null;
 let selectedTextGlobal = "";
+let audioContext = null;
+let activeAudioSource = null;
+let activeHtmlAudio = null;
+let audioPlaybackToken = 0;
+let audioRequestToken = 0;
 
-// Play TTS audio by fetching data URL through background script (bypasses page CSP/CORS restrictions)
+// Resume the Web Audio context while the user is interacting with the page.
+// This keeps automatic pronunciation eligible under modern autoplay policies.
+function unlockAudio() {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    if (!audioContext) audioContext = new AudioContextClass();
+    if (audioContext.state === 'suspended') {
+        audioContext.resume().catch(() => {});
+    }
+}
+
+// Play TTS audio by fetching a base64 data URL through the background script.
+// This bypasses page CSP/CORS restrictions that would block direct TTS requests.
 function playAudio(text, btnElement = null) {
+    const requestToken = ++audioRequestToken;
     if (btnElement) btnElement.classList.add('btPlaying');
 
     const removePlayingClass = () => {
@@ -12,28 +30,76 @@ function playAudio(text, btnElement = null) {
 
     try {
         chrome.runtime.sendMessage({ action: "get_audio", text: text }, (response) => {
-            if (response && response.success && response.audioDataUrl) {
-                const audio = new Audio(response.audioDataUrl);
-                
-                audio.play()
-                    .then(() => console.log("Audio playing successfully."))
-                    .catch(err => {
-                        console.error("Content script audio playback failed, trying background fallback:", err);
-                        // Fallback: ask background script to play audio directly if content script playback rejected
-                        chrome.runtime.sendMessage({ action: "play_audio_bg", text: text });
-                        removePlayingClass();
-                    });
-                    
-                audio.addEventListener('ended', removePlayingClass);
-                audio.addEventListener('error', removePlayingClass);
+            if (requestToken !== audioRequestToken) {
+                removePlayingClass();
+                return;
+            }
+            if (response && response.success && Array.isArray(response.audioDataUrls)) {
+                playAudioSequence(response.audioDataUrls, removePlayingClass);
             } else {
-                console.error("Failed to retrieve audio data URL from background:", response ? response.error : "No response");
+                console.error("Failed to retrieve audio data URL:", response ? response.error : "No response");
                 removePlayingClass();
             }
         });
     } catch (err) {
-        console.error("Audio messaging failed:", err);
+        console.error("Audio messaging failed (extension context likely invalidated):", err);
         removePlayingClass();
+    }
+}
+
+function playAudioSequence(audioDataUrls, onFinished) {
+    const playbackToken = ++audioPlaybackToken;
+    let index = 0;
+    const playNext = () => {
+        if (playbackToken !== audioPlaybackToken) return;
+        if (index >= audioDataUrls.length) {
+            onFinished();
+            return;
+        }
+        const audioDataUrl = audioDataUrls[index++];
+        if (audioContext && audioContext.state === 'running') {
+            playWithAudioContext(audioDataUrl, playNext, () => {
+                if (playbackToken === audioPlaybackToken) onFinished();
+            });
+            return;
+        }
+        const audio = new Audio(audioDataUrl);
+        activeHtmlAudio = audio;
+        audio.addEventListener('ended', () => {
+            if (playbackToken === audioPlaybackToken) playNext();
+        }, { once: true });
+        audio.addEventListener('error', () => {
+            console.warn("Audio chunk failed to play.");
+            if (playbackToken === audioPlaybackToken) onFinished();
+        }, { once: true });
+        audio.play().catch(err => {
+            console.warn("Audio playback rejected by browser:", err);
+            if (playbackToken === audioPlaybackToken) onFinished();
+        });
+    };
+    playNext();
+}
+
+function playWithAudioContext(audioDataUrl, onEnded, onError) {
+    try {
+        const binary = atob(audioDataUrl.slice(audioDataUrl.indexOf(',') + 1));
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        audioContext.decodeAudioData(bytes.buffer)
+            .then(buffer => {
+                const source = audioContext.createBufferSource();
+                activeAudioSource = source;
+                source.buffer = buffer;
+                source.connect(audioContext.destination);
+                source.addEventListener('ended', () => {
+                    if (activeAudioSource === source) activeAudioSource = null;
+                    onEnded();
+                }, { once: true });
+                source.start();
+            })
+            .catch(onError);
+    } catch (error) {
+        onError(error);
     }
 }
 
@@ -46,39 +112,48 @@ document.addEventListener('selectionchange', () => {
     }
 
     const selection = window.getSelection();
-    const text = selection.toString().trim();
-    
+    const text = selection ? selection.toString().trim() : '';
+
     if (!text) {
+        if (!translateBox && floatingIcon) {
+            floatingIcon.remove();
+            floatingIcon = null;
+        }
         return;
     }
-    
+
+    // Guard: ensure a range exists before calling getRangeAt()
+    if (!selection || selection.rangeCount === 0) {
+        return;
+    }
+
     selectedTextGlobal = text;
-    
+
     const range = selection.getRangeAt(0);
     const rects = range.getClientRects();
     if (rects.length === 0) return;
-    
+
     const lastRect = rects[rects.length - 1];
-    
-    // If the main translation box is already open, don't show the small icon again
+
+    // If the main translation box is already open, don't show the floating icon again
     if (translateBox) return;
 
     if (!floatingIcon) {
-        // Create the small cute cat floating action button as an image element
         floatingIcon = document.createElement('img');
-        floatingIcon.id = 'gtranslate-floating-icon';
-        floatingIcon.src = chrome.runtime.getURL('src/assets/icon48.png'); 
+        floatingIcon.id = 'baboosh-floating-icon';
+        floatingIcon.src = chrome.runtime.getURL('src/assets/icon48.png');
         document.body.appendChild(floatingIcon);
-        
+
         floatingIcon.addEventListener('mousedown', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            unlockAudio();
             showTranslationBox(lastRect);
         });
     }
-    
+
     // --- INTELLIGENT ICON POSITIONING ---
-    const iconSize = 34; // Matches the 34px width/height from style.css
+    const iconSize = 36; // Matches the 36px width/height from style.css
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const scrollX = window.scrollX;
@@ -96,9 +171,8 @@ document.addEventListener('selectionchange', () => {
     if (iconLeft < scrollX) {
         iconLeft = scrollX + 10;
     }
-    // Boundary Protection: Bottom edge
+    // Boundary Protection: Bottom edge — flip above the selection
     if (iconTop + iconSize > scrollY + viewportHeight) {
-        // Flip it above the text if it runs out of vertical space at the bottom
         iconTop = lastRect.top + scrollY - iconSize - 5;
     }
     // Boundary Protection: Top edge
@@ -117,20 +191,22 @@ function showTranslationBox(rect) {
     }
 
     if (!translateBox) {
+        // Keep this popup tied to the selection that opened it. Later selections
+        // must not change the text played by its Listen button.
+        const selectedText = selectedTextGlobal;
         translateBox = document.createElement('div');
-        translateBox.id = 'gtranslate-main-box';
-        
-        // Header with Header-Content wrapper to support top audio button layout
+        translateBox.id = 'baboosh-main-box';
+
+        // Header
         const header = document.createElement('div');
-        header.className = 'gtranslate-header';
+        header.className = 'baboosh-header';
 
         const headerTitleWrapper = document.createElement('div');
-        headerTitleWrapper.className = 'gtranslate-header-title-wrapper';
+        headerTitleWrapper.className = 'baboosh-header-title-wrapper';
 
-        // Create an image element for the cute cat icon
         const headerIcon = document.createElement('img');
-        headerIcon.className = 'gtranslate-header-icon';
-        headerIcon.src = chrome.runtime.getURL('src/assets/icon48.png'); 
+        headerIcon.className = 'baboosh-header-icon';
+        headerIcon.src = chrome.runtime.getURL('src/assets/icon48.png');
 
         const headerText = document.createElement('span');
         headerText.innerText = 'Baboosh Translate';
@@ -139,73 +215,73 @@ function showTranslationBox(rect) {
         headerTitleWrapper.appendChild(headerText);
         header.appendChild(headerTitleWrapper);
 
-        // Header actions wrapper
+        // Header actions (audio + close buttons)
         const headerActions = document.createElement('div');
         headerActions.style.display = 'flex';
         headerActions.style.alignItems = 'center';
         headerActions.style.gap = '4px';
 
-        // Audio Button moved to the top header right side
         const audioBtn = document.createElement('button');
-        audioBtn.className = 'gtranslate-audio-btn';
+        audioBtn.className = 'baboosh-audio-btn';
         audioBtn.innerHTML = '🔊 <span>Listen</span>';
         headerActions.appendChild(audioBtn);
-        
+
         const closeBtn = document.createElement('button');
-        closeBtn.className = 'gtranslate-close-btn';
+        closeBtn.className = 'baboosh-close-btn';
         closeBtn.innerHTML = '×';
-        closeBtn.addEventListener('click', (e) => { 
-            e.preventDefault(); 
-            e.stopPropagation(); 
-            removeAllPopups(); 
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            removeAllPopups();
         });
         headerActions.appendChild(closeBtn);
-        
+
         header.appendChild(headerActions);
-        
         translateBox.appendChild(header);
 
-        // Original Text Section
+        // Original selected text
         const sourceText = document.createElement('div');
-        sourceText.className = 'gtranslate-source-text';
-        sourceText.innerText = selectedTextGlobal;
+        sourceText.className = 'baboosh-source-text';
+        sourceText.innerText = selectedText;
         translateBox.appendChild(sourceText);
 
         // Divider
         const divider = document.createElement('hr');
-        divider.className = 'gtranslate-divider';
+        divider.className = 'baboosh-divider';
         translateBox.appendChild(divider);
-        
-        // Translation Content Section
+
+        // Translation output (spinner while loading)
         const targetText = document.createElement('div');
-        targetText.className = 'gtranslate-target-text';
+        targetText.className = 'baboosh-target-text';
         const spinner = document.createElement('div');
-        spinner.className = 'gtranslate-loading';
+        spinner.className = 'baboosh-loading';
         targetText.appendChild(spinner);
         translateBox.appendChild(targetText);
-        
+
         document.body.appendChild(translateBox);
-        
+
+        // Prevent mousedown inside the box from dismissing it
         translateBox.addEventListener('mousedown', (e) => {
             e.stopPropagation();
         });
 
-        // 1. CONDITIONAL AUTOMATIC PLAYBACK: Check preference before playing immediately
+        // Auto-play audio if the user's preference is set to 'auto'
         try {
             chrome.storage.sync.get({ audioPref: 'auto' }, (items) => {
                 if (items.audioPref === 'auto') {
-                    playAudio(selectedTextGlobal, audioBtn);
+                    playAudio(selectedText, audioBtn);
                 }
             });
         } catch (err) {
-            console.warn("Auto-play preference check failed or context invalidated:", err);
+            console.warn("Auto-play preference check failed (context likely invalidated):", err);
         }
 
-        // 2. MANUAL PLAYBACK: Listen again when clicking the audio button
+        // Manual playback via the Listen button
         audioBtn.addEventListener('click', (e) => {
             e.preventDefault();
             try {
-                playAudio(selectedTextGlobal, audioBtn);
+                unlockAudio();
+                playAudio(selectedText, audioBtn);
             } catch (err) {
                 console.warn("Audio playback failed:", err);
             }
@@ -213,14 +289,14 @@ function showTranslationBox(rect) {
 
         // Request translation from background
         try {
-            chrome.runtime.sendMessage({ action: "translate_text", text: selectedTextGlobal }, (response) => {
+            chrome.runtime.sendMessage({ action: "translate_text", text: selectedText }, (response) => {
                 targetText.innerHTML = '';
                 if (response && response.success) {
                     targetText.innerText = response.translation;
                 } else {
-                    targetText.innerText = "Translation error.";
+                    targetText.innerText = response && response.error ? response.error : "Translation error.";
                 }
-                // Recalculate position dynamically if content height changed after translation text arrives
+                // Recalculate position after translation text arrives and box height changes
                 repositionBox(rect);
             });
         } catch (err) {
@@ -228,48 +304,51 @@ function showTranslationBox(rect) {
             targetText.innerText = "Error connecting to extension.";
         }
     }
-    
-    // Initial layout position calculation
+
+    // Initial position
     repositionBox(rect);
 }
 
-// Extracted positioning into a reusable function to allow updates post-translation injection
+// Positions (or repositions) the translation box relative to the selection rect.
+// Called both on initial render and after translation content loads.
 function repositionBox(rect) {
     if (!translateBox) return;
 
     const boxWidth = translateBox.offsetWidth;
     const boxHeight = translateBox.offsetHeight;
-    
+
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const scrollX = window.scrollX;
     const scrollY = window.scrollY;
 
-    // Default positioning: directly below the text selection bounding rectangle
+    // Default: directly below the selection
     let left = rect.left + scrollX;
     let top = rect.bottom + scrollY + 8;
 
-    // If box overflows bottom viewport bounds, flip it cleanly ABOVE the selection text.
+    // Flip above if overflowing bottom
     if (top + boxHeight > scrollY + viewportHeight) {
         top = rect.top + scrollY - boxHeight - 8;
     }
 
-    // Safety edge bounds adjustments (Left & Right boundaries)
+    // Right/left boundary clamp
     if (left + boxWidth > scrollX + viewportWidth) {
         left = scrollX + viewportWidth - boxWidth - 16;
     }
     if (left < scrollX) {
         left = scrollX + 16;
     }
+
+    // Top boundary safety fallback
     if (top < scrollY) {
-        top = scrollY + 8; // Extreme case fallback protection
+        top = scrollY + 8;
     }
 
     translateBox.style.left = `${left}px`;
     translateBox.style.top = `${top}px`;
 }
 
-// Close everything when clicking outside
+// Dismiss popups when clicking outside them
 document.addEventListener('mousedown', (e) => {
     if (floatingIcon && !floatingIcon.contains(e.target)) {
         floatingIcon.remove();
@@ -281,6 +360,16 @@ document.addEventListener('mousedown', (e) => {
 });
 
 function removeAllPopups() {
+    audioRequestToken++;
+    audioPlaybackToken++;
+    if (activeHtmlAudio) {
+        activeHtmlAudio.pause();
+        activeHtmlAudio = null;
+    }
+    if (activeAudioSource) {
+        activeAudioSource.stop();
+        activeAudioSource = null;
+    }
     if (floatingIcon) {
         floatingIcon.remove();
         floatingIcon = null;

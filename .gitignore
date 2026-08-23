@@ -1,5 +1,5 @@
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 
@@ -41,16 +41,14 @@ desktop.ini
 
 # Local environment / Secrets (Crucial if we use translation API keys later)
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
 
 # Build output & Extension packages (CRX packages, private keys, zip files)
 dist/
 out/
 build/
+coverage/
 *.zip
 *.crx
+*.xpi
 *.pem
-

@@ -1,4 +1,4 @@
-# 🐱 Baboosh Translate | ببوش ترنسلیت
+# Baboosh Translate | ببوش ترنسلیت
 
 <div align="center">
 
@@ -23,7 +23,7 @@
 
 ---
 
-## 📌 فهرست مطالب (فارسی)
+## فهرست مطالب (فارسی)
 - [مهم‌ترین مزیت افزونه](#مهمترین-مزیت-افزونه)
 - [ویژگی‌های اصلی](#ویژگیهای-اصلی)
 - [معماری فنی](#معماری-فنی)
@@ -35,7 +35,7 @@
 
 ---
 
-## 🌟 مهم‌ترین مزیت افزونه
+## مهم‌ترین مزیت افزونه
 
 بزرگ‌ترین مشکل در سرویس‌های آنلاین ترجمه (مانند Google Translate) این است که با اتصال از برخی کشورها یا تغییر IP، گوگل به صورت خودکار لهجه بریتانیایی (British Accent) را برای تلفظ صوتی اعمال می‌کند و انتخاب لهجه آمریکایی غیرفعال می‌شود.
 
@@ -43,19 +43,19 @@
 
 ---
 
-## ✨ ویژگی‌های اصلی
+## ویژگی‌های اصلی
 
-- 🎙️ **تلفظ با لهجه دقیق آمریکایی**: پخش صدای انگلیسی با لهجهٔ آمریکایی از طریق Google TTS API بدون محدودیت جغرافیایی.
-- 🌐 **ترجمه روان به فارسی**: ترجمهٔ سریع و دقیق کلمات و جملات انگلیسی به فارسی.
-- 🐱 **آیکون شناور و هوشمند پیشی**: با انتخاب (Select) هر متنی در صفحه، آیکون بامزه پیشی ظاهر می‌شود.
-- 📐 **موقعیت‌یابی هوشمند (Smart Positioning)**: باکس ترجمه به گونه‌ای طراحی شده که هرگز از لبه‌های مرورگر بیرون نزند و روی متن اصلی قرار نگیرد.
-- ⚙️ **مدیریت پخش صدا (Instant / On-Demand)**: امکان فعال یا غیرفعال‌سازی پخش خودکار صدا هنگام باز شدن باکس ترجمه (قابل تغییر از منوی پاپ‌آپ یا صفحه تنظیمات).
-- 🦊🌐 **پشتیبانی از مرورگرهای کروم و فایرفاکس**: سازگاری کامل با Chrome و Firefox.
-- 🎨 **رابط کاربری مدرن**: طراحی زیبا، سبک و سازگار با سیستم‌عامل‌های مختلف.
+- **تلفظ با لهجه دقیق آمریکایی**: پخش صدای انگلیسی با لهجهٔ آمریکایی از طریق Google TTS API بدون محدودیت جغرافیایی.
+- **ترجمه روان به فارسی**: ترجمهٔ سریع و دقیق کلمات و جملات انگلیسی به فارسی.
+- **آیکون شناور و هوشمند پیشی**: با انتخاب (Select) هر متنی در صفحه، آیکون بامزه پیشی ظاهر می‌شود.
+- **موقعیت‌یابی هوشمند (Smart Positioning)**: باکس ترجمه به گونه‌ای طراحی شده که هرگز از لبه‌های مرورگر بیرون نزند و روی متن اصلی قرار نگیرد.
+- **مدیریت پخش صدا (Instant / On-Demand)**: امکان فعال یا غیرفعال‌سازی پخش خودکار صدا هنگام باز شدن باکس ترجمه (قابل تغییر از منوی پاپ‌آپ یا صفحه تنظیمات).
+- **پشتیبانی از مرورگرهای کروم و فایرفاکس**: سازگاری کامل با Chrome و Firefox.
+- **رابط کاربری مدرن**: طراحی زیبا، سبک و سازگار با سیستم‌عامل‌های مختلف.
 
 ---
 
-## 🏗️ معماری فنی
+## معماری فنی
 
 این افزونه بر پایه آخرین استاندارد گوگل و موزیلا (**Manifest V3**) توسعه داده شده است:
 
@@ -65,36 +65,36 @@
 
 ---
 
-## 🚀 راهنمای نصب
+## راهنمای نصب
 
 افزونه **ببوش ترنسلیت** هم در **فایرفاکس** و هم در **کروم** قابل استفاده است:
 
-### 🦊 مرورگر فایرفاکس (Firefox) - نصب مستقیم
-این افزونه به صورت رسمی در فروشگاه افزونه‌های فایرفاکس (Firefox Add-ons Store) قرار دارد و می‌توانید آن را به راحتی با یک کلیک نصب کنید:  
-👉 **[دریافت و نصب افزونه از فروشگاه رسمی فایرفاکس (AMO)](https://addons.mozilla.org/en-US/firefox/addon/baboosh-translate/)**
+### مرورگر فایرفاکس (Firefox) - نصب مستقیم
+این افزونه به صورت رسمی در فروشگاه افزونه‌های فایرفاکس (Firefox Add-ons Store) قرار دارد و می‌توانید آن را به راحتی با یک کلیک نصب کنید:
+**[دریافت و نصب افزونه از فروشگاه رسمی فایرفاکس (AMO)](https://addons.mozilla.org/en-US/firefox/addon/baboosh-translate/)**
 
-### 🌐 مرورگر کروم (Google Chrome)
+### مرورگر کروم (Google Chrome)
 به دلیل عدم داشتن حساب Developer گوگل در حال حاضر، این افزونه هنوز در Chrome Web Store قرار نگرفته است، اما می‌توانید از دو روش زیر آن را نصب کنید:
 
-#### روش اول: نصب سریع با فایل CRX (پیشنهادی)
-1. به بخش **[Releases](https://github.com/um-ellie/baboosh-translator/releases)** در همین ریپازیتوری بروید و آخرین نسخه فایل با پسوند `.crx` را دانلود کنید.
+#### روش اول: نصب نسخهٔ آماده (پیشنهادی)
+1. به بخش **[Releases](https://github.com/um-ellie/baboosh-translator/releases)** در همین ریپازیتوری بروید و فایل `baboosh-translate-chrome.zip` را دانلود و Extract کنید.
 2. مرورگر کروم را باز کرده و به آدرس `chrome://extensions/` بروید.
 3. از گوشه بالا سمت راست، گزینه **Developer mode** را روشن کنید.
-4. فایل `.crx` دانلود شده را با ماوس بکشید و داخل صفحه افزونه‌ها رها کنید (Drag & Drop).
-5. در پنجره باز شده روی دکمه **Add extension** کلیک کنید.
+4. از بالا سمت چپ روی دکمه **Load unpacked** کلیک کنید.
+5. پوشهٔ Extract‌شده (پوشه‌ای که فایل `manifest.json` در آن است) را انتخاب کنید.
 
 #### روش دوم: نصب دستی پوشه کد (Unpacked)
-1. کل این ریپازیتوری را دانلود (یا `git clone`) کرده و فایل زیپ را Extract کنید.
+1. کل این ریپازیتوری را دانلود (یا `git clone`) کرده و در پوشهٔ پروژه دستور `npm run build:chrome` را اجرا کنید.
 2. مرورگر کروم را باز کرده و به آدرس `chrome://extensions/` بروید.
 3. گزینه **Developer mode** را از بالا سمت راست فعال کنید.
 4. از بالا سمت چپ روی دکمه **Load unpacked** کلیک کنید.
-5. پوشه اصلی پروژه (پوشه‌ای که فایل `manifest.json` در آن قرار دارد) را انتخاب کنید.
+5. پوشهٔ `dist/chrome` (پوشه‌ای که فایل `manifest.json` در آن قرار دارد) را انتخاب کنید.
 
 > **نکته:** پس از نصب، اگر افزونه در صفحاتی که از قبل باز بوده‌اند کار نکرد، کافی است یک بار آن صفحه را Refresh کنید.
 
 ---
 
-## ⚙️ تنظیمات و سفارشی‌سازی
+## تنظیمات و سفارشی‌سازی
 
 شما می‌توانید رفتار پخش صدا را مطابق میل خود تغییر دهید:
 - **Instant Pronunciation (پخش فوری)**: به محض کلیک روی آیکون و باز شدن باکس ترجمه، تلفظ صوتی پخش می‌شود.
@@ -104,24 +104,24 @@
 
 ---
 
-## 🔮 برنامه‌های آینده
+## برنامه‌های آینده
 
-- 🇬🇧 اضافه کردن امکان انتخاب لهجه بریتانیایی (British Accent).
-- 🌍 پشتیبانی از ترجمه به سایر زبان‌های دنیا.
-- ⌨️ اضافه کردن کلیدهای میانبر (Keyboard Shortcuts) جهت ترجمه سریع‌تر.
+- اضافه کردن امکان انتخاب لهجه بریتانیایی (British Accent).
+- پشتیبانی از ترجمه به سایر زبان‌های دنیا.
+- اضافه کردن کلیدهای میانبر (Keyboard Shortcuts) جهت ترجمه سریع‌تر.
 
 ---
 
-## 💌 درباره پروژه و یادبود
+## درباره پروژه و یادبود
 
-نام این پروژه به یاد گربهٔ عزیز و دوست‌داشتنی به نام **ببوش (Baboosh)** انتخاب شده است.  
+نام این پروژه به یاد گربهٔ عزیز و دوست‌داشتنی به نام **ببوش (Baboosh)** انتخاب شده است.
 این افزونه همچنین پروژه‌ای دلی و تمرینی برای ارتقای مهارت‌های JavaScript است.
 
 - **سازنده:** Ellie
 - **ایمیل پشتیبانی:** umellie8@gmail.com
 - **ریپازیتوری گیت‌هاب:** [github.com/um-ellie/baboosh-translator](https://github.com/um-ellie/baboosh-translator)
 
-*با عشق و احترام ❤️🐈*
+*با عشق و احترام*
 
 ---
 
@@ -135,7 +135,7 @@
 
 ---
 
-## 📌 Table of Contents (English)
+## Table of Contents (English)
 - [Core Value Proposition](#core-value-proposition)
 - [Key Features](#key-features-1)
 - [Technical Architecture](#technical-architecture-1)
@@ -147,7 +147,7 @@
 
 ---
 
-## 🌟 Core Value Proposition
+## Core Value Proposition
 
 When using translation services like Google Translate outside the US, Google often defaults to the British accent for TTS audio playback and restricts access to the American accent based on IP location.
 
@@ -155,19 +155,19 @@ When using translation services like Google Translate outside the US, Google oft
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-- 🎙️ **Standard American Accent TTS**: Always plays clear American pronunciation via Google TTS API regardless of location.
-- 🌐 **Fluent Persian Translation**: Instantly translates selected English text into natural Persian.
-- 🐱 **Smart Floating Cat Action Icon**: Select any text on a webpage, and a cute cat icon pops up right beside your selection.
-- 📐 **Intelligent Viewport Boundary Control**: The translation popup box dynamically calculates layout bounds to prevent overflowing off-screen edges or obscuring original text.
-- ⚙️ **Flexible Audio Modes**: Choose between auto-play audio or on-demand manual audio playback.
-- 🦊🌐 **Chrome & Firefox Compatible**: Full cross-browser compatibility.
-- 🎨 **Clean & Modern UI**: Built with modern CSS, smooth visual components, and complete Manifest V3 compliance.
+- **Standard American Accent TTS**: Always plays clear American pronunciation via Google TTS API regardless of location.
+- **Fluent Persian Translation**: Instantly translates selected English text into natural Persian.
+- **Smart Floating Cat Action Icon**: Select any text on a webpage, and a cute cat icon pops up right beside your selection.
+- **Intelligent Viewport Boundary Control**: The translation popup box dynamically calculates layout bounds to prevent overflowing off-screen edges or obscuring original text.
+- **Flexible Audio Modes**: Choose between auto-play audio or on-demand manual audio playback.
+- **Chrome & Firefox Compatible**: Full cross-browser compatibility.
+- **Clean & Modern UI**: Built with modern CSS, smooth visual components, and complete Manifest V3 compliance.
 
 ---
 
-## 🏗️ Technical Architecture
+## Technical Architecture
 
 Developed using modern **Manifest V3** standards for Chrome and Firefox:
 
@@ -177,36 +177,36 @@ Developed using modern **Manifest V3** standards for Chrome and Firefox:
 
 ---
 
-## 🚀 Installation Guide
+## Installation Guide
 
 **Baboosh Translate** supports both **Mozilla Firefox** and **Google Chrome**:
 
-### 🦊 Mozilla Firefox - Official Add-ons Store (Instant Install)
-The extension is officially published on the Firefox Add-ons Store. You can install it with a single click:  
-👉 **[Install Baboosh Translate from Firefox Add-ons (AMO)](https://addons.mozilla.org/en-US/firefox/addon/baboosh-translate/)**
+### Mozilla Firefox - Official Add-ons Store (Instant Install)
+The extension is officially published on the Firefox Add-ons Store. You can install it with a single click:
+**[Install Baboosh Translate from Firefox Add-ons (AMO)](https://addons.mozilla.org/en-US/firefox/addon/baboosh-translate/)**
 
-### 🌐 Google Chrome
+### Google Chrome
 Since the extension is currently not listed on the Chrome Web Store, you can install it using either of the following two methods:
 
-#### Method 1: Quick Install via CRX File (Recommended)
-1. Go to the **[Releases](https://github.com/um-ellie/baboosh-translator/releases)** section of this repository and download the latest `.crx` file.
-2. Open Chrome and navigate to `chrome://extensions/`.
-3. Enable **Developer mode** in the top-right corner.
-4. Drag and drop the downloaded `.crx` file directly into the extensions page.
-5. Click **Add extension** when prompted.
-
-#### Method 2: Manual Installation (Unpacked Source)
-1. Download or `git clone` this repository to your local machine.
+#### Method 1: Install a Release Package (Recommended)
+1. Go to the **[Releases](https://github.com/um-ellie/baboosh-translator/releases)** section of this repository, download `baboosh-translate-chrome.zip`, and extract it.
 2. Open Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** in the top-right corner.
 4. Click the **Load unpacked** button in the top-left corner.
-5. Select the main project folder (the directory containing `manifest.json`).
+5. Select the extracted folder containing `manifest.json`.
+
+#### Method 2: Manual Installation (Unpacked Source)
+1. Download or `git clone` this repository, then run `npm run build:chrome` from the project folder.
+2. Open Chrome and navigate to `chrome://extensions/`.
+3. Enable **Developer mode** in the top-right corner.
+4. Click the **Load unpacked** button in the top-left corner.
+5. Select `dist/chrome` (the directory containing `manifest.json`).
 
 > **Note:** If the extension does not trigger on web pages that were open prior to installation, simply reload (refresh) those tabs once.
 
 ---
 
-## ⚙️ Settings & Customization
+## Settings & Customization
 
 You can easily adjust the audio behavior based on your preference:
 - **Instant Pronunciation**: Plays pronunciation audio automatically as soon as the translation popup panel displays.
@@ -216,15 +216,15 @@ Toggle this setting anytime from the extension's **Popup Menu** or **Options Pag
 
 ---
 
-## 🔮 Future Roadmap
+## Future Roadmap
 
-- 🇬🇧 Option to switch to British Accent pronunciation.
-- 🌍 Support for additional target translation languages.
-- ⌨️ Customizable keyboard shortcuts for instant translation.
+- Option to switch to British Accent pronunciation.
+- Support for additional target translation languages.
+- Customizable keyboard shortcuts for instant translation.
 
 ---
 
-## 💌 Author & Dedication
+## Author & Dedication
 
 The name of this application is dedicated in loving memory of a sweet cat named **Baboosh**.
 
@@ -232,4 +232,4 @@ The name of this application is dedicated in loving memory of a sweet cat named 
 - **Support Email:** umellie8@gmail.com
 - **GitHub Repository:** [github.com/um-ellie/baboosh-translator](https://github.com/um-ellie/baboosh-translator)
 
-*Made with love ❤️🐈*
+*Made with love*

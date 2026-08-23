@@ -19,8 +19,8 @@
     100% { transform: scale(1); }
 }
 
-/* Small floating action button styling */
-#gtranslate-floating-icon {
+/* Small floating action button */
+#baboosh-floating-icon {
     position: absolute !important;
     width: 36px !important;
     height: 36px !important;
@@ -34,12 +34,12 @@
     animation: btFadeIn 200ms forwards !important;
 }
 
-#gtranslate-floating-icon:hover {
+#baboosh-floating-icon:hover {
     transform: scale(1.15) rotate(10deg) !important;
 }
 
-/* Main Google Translate Mimic Box */
-#gtranslate-main-box {
+/* Main translation box */
+#baboosh-main-box {
     position: absolute !important;
     background-color: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
@@ -47,11 +47,11 @@
     border-radius: 16px !important;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
     z-index: 2147483647 !important;
-    
+
     min-width: 280px !important;
     width: max-content !important;
-    max-width: 460px !important; 
-    
+    max-width: 460px !important;
+
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
     display: flex !important;
     flex-direction: column !important;
@@ -59,7 +59,7 @@
     animation: btSlideIn 250ms ease-out forwards !important;
 }
 
-#gtranslate-main-box::before {
+#baboosh-main-box::before {
     content: '' !important;
     display: block !important;
     height: 3px !important;
@@ -67,8 +67,8 @@
     background: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa) !important;
 }
 
-/* Header layout updated to align items and support top audio button */
-.gtranslate-header {
+/* Header */
+.baboosh-header {
     background-color: transparent !important;
     color: #1e293b !important;
     padding: 12px 16px !important;
@@ -80,13 +80,13 @@
     border-bottom: 1px solid rgba(99, 102, 241, 0.08) !important;
 }
 
-.gtranslate-header-title-wrapper {
+.baboosh-header-title-wrapper {
     display: flex !important;
     align-items: center !important;
     gap: 6px !important;
 }
 
-.gtranslate-header-icon {
+.baboosh-header-icon {
     width: 24px !important;
     height: 24px !important;
     object-fit: contain !important;
@@ -94,8 +94,8 @@
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)) !important;
 }
 
-/* Original Selected Text Area */
-.gtranslate-source-text {
+/* Original selected text */
+.baboosh-source-text {
     color: #1e293b !important;
     font-size: 16px !important;
     padding: 14px 16px 10px 16px !important;
@@ -106,15 +106,15 @@
     word-break: break-word !important;
 }
 
-.gtranslate-divider {
+.baboosh-divider {
     height: 1px !important;
     border: none !important;
     background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.15), transparent) !important;
     margin: 0 16px !important;
 }
 
-/* Persian Translation Output Area */
-.gtranslate-target-text {
+/* Persian translation output */
+.baboosh-target-text {
     color: #1e293b !important;
     font-size: 16px !important;
     font-weight: 500 !important;
@@ -126,8 +126,8 @@
     word-break: break-word !important;
 }
 
-/* Audio Action Button on Top Right */
-.gtranslate-audio-btn {
+/* Audio button */
+.baboosh-audio-btn {
     background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
     color: #ffffff !important;
     border: none !important;
@@ -144,23 +144,23 @@
     transition: all 0.2s ease !important;
 }
 
-.gtranslate-audio-btn:hover {
+.baboosh-audio-btn:hover {
     filter: brightness(1.1) !important;
     transform: translateY(-1px) !important;
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4) !important;
 }
 
-.gtranslate-audio-btn:active {
+.baboosh-audio-btn:active {
     filter: brightness(0.95) !important;
     transform: translateY(0) !important;
 }
 
-.gtranslate-audio-btn.btPlaying {
+.baboosh-audio-btn.btPlaying {
     animation: btPulse 0.6s ease-in-out infinite !important;
 }
 
-/* Close Button */
-.gtranslate-close-btn {
+/* Close button */
+.baboosh-close-btn {
     background: transparent !important;
     border: none !important;
     color: #94a3b8 !important;
@@ -176,13 +176,13 @@
     transition: all 0.15s ease !important;
 }
 
-.gtranslate-close-btn:hover {
+.baboosh-close-btn:hover {
     background: rgba(99, 102, 241, 0.08) !important;
     color: #6366f1 !important;
 }
 
-/* Spinner */
-.gtranslate-loading {
+/* Loading spinner */
+.baboosh-loading {
     width: 12px !important;
     height: 12px !important;
     border: 2px solid #e0e7ff !important;

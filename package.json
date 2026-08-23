@@ -1,0 +1,17 @@
+{
+  "name": "baboosh-translate",
+  "version": "2.0.1",
+  "private": true,
+  "type": "commonjs",
+  "description": "English-to-Persian translation and US-English pronunciation browser extension.",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:chrome": "node scripts/build.js chrome",
+    "build:firefox": "node scripts/build.js firefox",
+    "package": "node scripts/build.js all --zip",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

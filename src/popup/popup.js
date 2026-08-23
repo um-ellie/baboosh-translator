@@ -3,28 +3,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const optionsLink = document.getElementById('openOptions');
   const aboutLink = document.getElementById('openAbout');
 
-  // Load existing preference to initialize the toggle switch state
+  // Load existing preference to initialise the toggle switch state
   chrome.storage.sync.get({ audioPref: 'auto' }, (items) => {
     audioToggle.checked = (items.audioPref === 'auto');
   });
 
-  // Toggle audio preference instantly from the popup menu
+  // Toggle audio preference instantly from the popup
   audioToggle.addEventListener('change', () => {
     const newPref = audioToggle.checked ? 'auto' : 'manual';
     chrome.storage.sync.set({ audioPref: newPref });
   });
 
-  // Open Options page securely inside a standard browser tab
+  // Open the Options page (both Firefox 140+ and Chrome support openOptionsPage)
   optionsLink.addEventListener('click', (e) => {
     e.preventDefault();
-    if (chrome.runtime.openOptionsPage) {
-      chrome.runtime.openOptionsPage();
-    } else {
-      chrome.tabs.create({ url: chrome.runtime.getURL('src/options/options.html') });
-    }
+    chrome.runtime.openOptionsPage();
   });
 
-  // Open About page securely inside a new browser tab
+  // Open the About page in a new tab
   aboutLink.addEventListener('click', (e) => {
     e.preventDefault();
     chrome.tabs.create({ url: chrome.runtime.getURL('src/about/about.html') });
