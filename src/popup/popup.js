@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.set({ audioPref: newPref });
   });
 
-  // Open the Options page (both Firefox 140+ and Chrome support openOptionsPage)
+  // Open the Options page (both Firefox 142+ and Chrome support openOptionsPage)
   optionsLink.addEventListener('click', (e) => {
     e.preventDefault();
     chrome.runtime.openOptionsPage();
