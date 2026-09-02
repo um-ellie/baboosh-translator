@@ -100,8 +100,6 @@
     font-size: 16px !important;
     padding: 14px 16px 10px 16px !important;
     line-height: 1.55 !important;
-    text-align: left !important;
-    direction: ltr !important;
     white-space: normal !important;
     word-break: break-word !important;
 }
@@ -120,44 +118,11 @@
     font-weight: 500 !important;
     padding: 10px 16px 16px 16px !important;
     line-height: 1.65 !important;
-    direction: rtl !important;
-    text-align: right !important;
     white-space: normal !important;
     word-break: break-word !important;
 }
 
-/* Audio button */
-.baboosh-audio-btn {
-    background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
-    color: #ffffff !important;
-    border: none !important;
-    outline: none !important;
-    padding: 6px 12px !important;
-    font-size: 11.5px !important;
-    border-radius: 8px !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 4px !important;
-    font-weight: 600 !important;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3) !important;
-    transition: all 0.2s ease !important;
-}
 
-.baboosh-audio-btn:hover {
-    filter: brightness(1.1) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4) !important;
-}
-
-.baboosh-audio-btn:active {
-    filter: brightness(0.95) !important;
-    transform: translateY(0) !important;
-}
-
-.baboosh-audio-btn.btPlaying {
-    animation: btPulse 0.6s ease-in-out infinite !important;
-}
 
 /* Close button */
 .baboosh-close-btn {
@@ -218,4 +183,35 @@
         background: rgba(99, 102, 241, 0.2) !important;
         color: #818cf8 !important;
     }
+}
+
+.baboosh-text-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.baboosh-icon-btn {
+  background: transparent !important;
+  border: none !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  padding: 4px 6px !important;
+  border-radius: 6px !important;
+  transition: background 0.2s ease, transform 0.1s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.baboosh-icon-btn:hover {
+  background: rgba(99, 102, 241, 0.1) !important;
+  transform: scale(1.05) !important;
+}
+.baboosh-icon-btn.btPlaying {
+  animation: btPulse 0.6s ease-in-out infinite !important;
+}
+@media (prefers-color-scheme: dark) {
+  .baboosh-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
 }

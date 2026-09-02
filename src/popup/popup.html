@@ -8,26 +8,47 @@
 
   <div class="popup-header">
     <img src="../assets/icon48.png" alt="Baboosh Icon">
-    <h3>Baboosh Translate</h3>
+    <h3 data-i18n="extName">Baboosh Translate</h3>
   </div>
 
-  <!-- A quick value-add feature: Instant feature toggling without diving into options -->
   <div class="menu-item">
-    <span>🔊 Instant Audio</span>
+    <span data-i18n="instantAudio">🔊 Instant Audio</span>
     <label class="switch">
       <input type="checkbox" id="instantAudioToggle">
       <span class="slider"></span>
     </label>
   </div>
+  
+  <div class="menu-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+    <span data-i18n="accent">Pronunciation Accent</span>
+    <div class="segment-control">
+      <button class="segment-btn" id="btnAccentUS" data-i18n="accentUS">🇺🇸 US</button>
+      <button class="segment-btn" id="btnAccentUK" data-i18n="accentUK">🇬🇧 UK</button>
+    </div>
+  </div>
+  
+  <div class="divider"></div>
+
+  <div class="menu-item">
+    <span data-i18n="targetLanguage">Target Language</span>
+    <select id="popupLangSelect" class="popup-select">
+      <option value="fa" data-i18n="langFa">Persian (فارسی)</option>
+            <option value="it" data-i18n="langIt">Italian (Italiano)</option>
+      <option value="es" data-i18n="langEs">Spanish (Español)</option>
+      <option value="fr" data-i18n="langFr">French (Français)</option>
+      <option value="de" data-i18n="langDe">German (Deutsch)</option>
+      <option value="zh-CN" data-i18n="langZh">Chinese (中文)</option>
+    </select>
+  </div>
 
   <div class="divider"></div>
 
-  <!-- Standard navigation links requested -->
-  <a href="#" id="openOptions" class="menu-item menu-link">⚙️ Extension Settings</a>
-  <a href="#" id="openAbout" class="menu-item menu-link">ℹ️ About Baboosh</a>
+  <a href="#" id="openOptions" class="menu-item menu-link"><span data-i18n="extensionSettings">⚙️ Extension Settings</span></a>
+  <a href="#" id="openAbout" class="menu-item menu-link"><span data-i18n="aboutExtension">ℹ️ About Baboosh</span></a>
 
-  <div class="popup-footer">v2.1.0</div>
+  <div class="popup-footer">v3.0.0</div>
 
+  <script src="../utils/i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

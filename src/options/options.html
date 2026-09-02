@@ -11,18 +11,18 @@
     <div class="card">
       <div class="header">
         <img src="../assets/icon48.png" alt="Baboosh Icon">
-        <h2>Baboosh Extension Settings</h2>
+        <h2 data-i18n="optionsTitle">Baboosh Extension Settings</h2>
       </div>
 
-      <p class="section-title">Audio Behavior</p>
+      <p class="section-title" data-i18n="audioBehavior">Audio Behavior</p>
       
       <div class="option-group">
         <label class="option-label">
           <input type="radio" name="audioPref" value="auto" checked>
           <span class="option-icon">🔊</span>
           <div class="option-text">
-            <span class="option-title">Instant Pronunciation</span>
-            <span class="option-desc">Play pronunciation audio automatically as soon as the translation popup panel displays.</span>
+            <span class="option-title" data-i18n="instantAudio">Instant Pronunciation</span>
+            <span class="option-desc" data-i18n="instantAudioDesc">Play pronunciation audio automatically as soon as the translation popup panel displays.</span>
           </div>
         </label>
 
@@ -30,8 +30,45 @@
           <input type="radio" name="audioPref" value="manual">
           <span class="option-icon">🖱️</span>
           <div class="option-text">
-            <span class="option-title">On-Demand Only</span>
-            <span class="option-desc">Keep it quiet. The pronunciation audio will only trigger when you click the "Listen" button inside the panel.</span>
+            <span class="option-title" data-i18n="onDemand">On-Demand Only</span>
+            <span class="option-desc" data-i18n="onDemandDesc">Keep it quiet. The pronunciation audio will only trigger when you click the "Listen" button inside the panel.</span>
+          </div>
+        </label>
+      </div>
+      
+      <br>
+      <p class="section-title" data-i18n="targetLanguage">Target Language</p>
+      
+      <div class="option-group">
+        <div class="select-wrapper">
+          <select id="targetLangSelect" class="custom-select">
+            <option value="fa" data-i18n="langFa">Persian (فارسی)</option>
+            <option value="it" data-i18n="langIt">Italian (Italiano)</option>
+            <option value="es" data-i18n="langEs">Spanish (Español)</option>
+            <option value="fr" data-i18n="langFr">French (Français)</option>
+            <option value="de" data-i18n="langDe">German (Deutsch)</option>
+            <option value="zh-CN" data-i18n="langZh">Chinese (中文)</option>
+          </select>
+        </div>
+      </div>
+
+      <br>
+      <p class="section-title" data-i18n="accent">Pronunciation Accent</p>
+      
+      <div class="option-group">
+        <label class="option-label">
+          <input type="radio" name="accentPref" value="en-us" checked>
+          <span class="option-icon">🇺🇸</span>
+          <div class="option-text">
+            <span class="option-title" data-i18n="accentUS">American (US)</span>
+          </div>
+        </label>
+
+        <label class="option-label">
+          <input type="radio" name="accentPref" value="en-gb">
+          <span class="option-icon">🇬🇧</span>
+          <div class="option-text">
+            <span class="option-title" data-i18n="accentUK">British (UK)</span>
           </div>
         </label>
       </div>
@@ -41,11 +78,12 @@
 
     <div class="footer-links">
       <a href="../about/about.html" class="about-link" id="aboutLink">
-        ℹ️ About Baboosh Translate
+        ℹ️ <span data-i18n="aboutExtension">About Baboosh Translate</span>
       </a>
     </div>
   </div>
 
+  <script src="../utils/i18n.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

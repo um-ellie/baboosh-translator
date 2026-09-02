@@ -245,3 +245,48 @@ h2 {
     background: rgba(16, 185, 129, 0.15);
   }
 }
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 1.1rem 1.25rem;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.custom-select:hover {
+  border-color: #c7d2fe;
+  background: #fafafe;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  .custom-select:hover {
+    border-color: #4f46e5;
+    background: rgba(99, 102, 241, 0.05);
+  }
+  .custom-select option {
+    background: #1e293b;
+    color: #f8fafc;
+  }
+}

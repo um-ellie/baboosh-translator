@@ -43,7 +43,7 @@ function unlockAudio() {
     }
 }
 
-function playAudio(text, btnElement = null) {
+function playAudio(text, lang, btnElement = null) {
     const requestToken = ++audioRequestToken;
     if (btnElement) btnElement.classList.add('btPlaying');
 
@@ -52,7 +52,7 @@ function playAudio(text, btnElement = null) {
     };
 
     try {
-        chrome.runtime.sendMessage({ action: "get_audio", text: text }, (response) => {
+        chrome.runtime.sendMessage({ action: "get_audio", text: text, lang: lang }, (response) => {
             if (requestToken !== audioRequestToken) {
                 removePlayingClass();
                 return;
@@ -227,7 +227,7 @@ function showTranslationBox(rect) {
         headerIcon.src = chrome.runtime.getURL('src/assets/icon48.png');
 
         const headerText = document.createElement('span');
-        headerText.innerText = 'Baboosh Translate';
+        headerText.innerText = chrome.i18n.getMessage('extName') || 'Baboosh Translate';
 
         headerTitleWrapper.appendChild(headerIcon);
         headerTitleWrapper.appendChild(headerText);
@@ -237,11 +237,6 @@ function showTranslationBox(rect) {
         headerActions.style.display = 'flex';
         headerActions.style.alignItems = 'center';
         headerActions.style.gap = '4px';
-
-        const audioBtn = document.createElement('button');
-        audioBtn.className = 'baboosh-audio-btn';
-        audioBtn.innerHTML = '🔊 <span>Listen</span>';
-        headerActions.appendChild(audioBtn);
 
         const closeBtn = document.createElement('button');
         closeBtn.className = 'baboosh-close-btn';
@@ -256,21 +251,44 @@ function showTranslationBox(rect) {
         header.appendChild(headerActions);
         translateBox.appendChild(header);
 
-        const sourceText = document.createElement('div');
-        sourceText.className = 'baboosh-source-text';
-        sourceText.innerText = selectedText;
-        translateBox.appendChild(sourceText);
+        // SOURCE TEXT ROW
+        const sourceRow = document.createElement('div');
+        sourceRow.className = 'baboosh-text-row';
+        
+        const sourceTextEl = document.createElement('div');
+        sourceTextEl.className = 'baboosh-source-text';
+        sourceTextEl.innerText = selectedText;
+        sourceRow.appendChild(sourceTextEl);
+        
+        const sourceAudioBtn = document.createElement('button');
+        sourceAudioBtn.className = 'baboosh-icon-btn';
+        sourceAudioBtn.innerHTML = '🔊';
+        sourceRow.appendChild(sourceAudioBtn);
+        
+        translateBox.appendChild(sourceRow);
 
         const divider = document.createElement('hr');
         divider.className = 'baboosh-divider';
         translateBox.appendChild(divider);
 
-        const targetText = document.createElement('div');
-        targetText.className = 'baboosh-target-text';
+        // TARGET TEXT ROW
+        const targetRow = document.createElement('div');
+        targetRow.className = 'baboosh-text-row';
+        
+        const targetTextEl = document.createElement('div');
+        targetTextEl.className = 'baboosh-target-text';
         const spinner = document.createElement('div');
         spinner.className = 'baboosh-loading';
-        targetText.appendChild(spinner);
-        translateBox.appendChild(targetText);
+        targetTextEl.appendChild(spinner);
+        targetRow.appendChild(targetTextEl);
+        
+        const targetAudioBtn = document.createElement('button');
+        targetAudioBtn.className = 'baboosh-icon-btn';
+        targetAudioBtn.innerHTML = '🔊';
+        targetAudioBtn.style.display = 'none';
+        targetRow.appendChild(targetAudioBtn);
+        
+        translateBox.appendChild(targetRow);
 
         shadowRoot.appendChild(translateBox);
 
@@ -278,21 +296,38 @@ function showTranslationBox(rect) {
             e.stopPropagation();
         });
 
+        // Initialize state variables for language info
+        let detectedSourceLang = null;
+        let finalTargetLang = null;
+        let translatedTextStr = null;
+
         try {
             chrome.storage.sync.get({ audioPref: 'auto' }, (items) => {
                 if (items.audioPref === 'auto') {
-                    playAudio(selectedText, audioBtn);
+                    playAudio(selectedText, null, sourceAudioBtn); 
                 }
             });
         } catch (err) {
             console.warn("Auto-play preference check failed:", err);
         }
 
-        audioBtn.addEventListener('click', (e) => {
+        sourceAudioBtn.addEventListener('click', (e) => {
             e.preventDefault();
             try {
                 unlockAudio();
-                playAudio(selectedText, audioBtn);
+                playAudio(selectedText, detectedSourceLang, sourceAudioBtn);
+            } catch (err) {
+                console.warn("Audio playback failed:", err);
+            }
+        });
+        
+        targetAudioBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            try {
+                unlockAudio();
+                if (translatedTextStr) {
+                    playAudio(translatedTextStr, finalTargetLang, targetAudioBtn);
+                }
             } catch (err) {
                 console.warn("Audio playback failed:", err);
             }
@@ -300,17 +335,37 @@ function showTranslationBox(rect) {
 
         try {
             chrome.runtime.sendMessage({ action: "translate_text", text: selectedText }, (response) => {
-                targetText.innerHTML = '';
+                targetTextEl.innerHTML = '';
                 if (response && response.success) {
-                    targetText.innerText = response.translation;
+                    translatedTextStr = response.translation;
+                    detectedSourceLang = response.sourceLang;
+                    finalTargetLang = response.targetLang;
+                    targetTextEl.innerText = translatedTextStr;
+                    
+                    if (finalTargetLang === 'fa' || finalTargetLang === 'ar') {
+                        targetTextEl.style.setProperty('direction', 'rtl', 'important');
+                        targetTextEl.style.setProperty('text-align', 'right', 'important');
+                    } else {
+                        targetTextEl.style.setProperty('direction', 'ltr', 'important');
+                        targetTextEl.style.setProperty('text-align', 'left', 'important');
+                    }
+                    
+                    if (detectedSourceLang === 'fa' || detectedSourceLang === 'ar') {
+                        sourceTextEl.style.setProperty('direction', 'rtl', 'important');
+                        sourceTextEl.style.setProperty('text-align', 'right', 'important');
+                    } else {
+                        sourceTextEl.style.setProperty('direction', 'ltr', 'important');
+                        sourceTextEl.style.setProperty('text-align', 'left', 'important');
+                    }
+                    targetAudioBtn.style.display = 'inline-flex';
                 } else {
-                    targetText.innerText = response && response.error ? response.error : "Translation error.";
+                    targetTextEl.innerText = response && response.error ? response.error : "Translation error.";
                 }
                 repositionBox(rect);
             });
         } catch (err) {
-            targetText.innerHTML = '';
-            targetText.innerText = "Error connecting to extension.";
+            targetTextEl.innerHTML = '';
+            targetTextEl.innerText = "Error connecting to extension.";
         }
     }
 

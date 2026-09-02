@@ -28,6 +28,9 @@ for (const target of targets) {
   const output = path.join(distRoot, target);
   fs.rmSync(output, { recursive: true, force: true });
   copyDirectory(path.join(root, 'src'), path.join(output, 'src'));
+  if (fs.existsSync(path.join(root, '_locales'))) {
+    copyDirectory(path.join(root, '_locales'), path.join(output, '_locales'));
+  }
   fs.copyFileSync(path.join(root, 'manifests', `manifest.${target}.json`), path.join(output, 'manifest.json'));
 
   if (shouldZip) {

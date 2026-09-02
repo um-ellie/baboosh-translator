@@ -1,15 +1,21 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (!message || typeof message.text !== 'string') return;
   if (message.action === "translate_text") {
-    translateText(message.text, sendResponse);
-    return true; // Keep channel open for async response
+    chrome.storage.sync.get({ targetLang: 'fa' }, (items) => {
+      translateText(message.text, items.targetLang, sendResponse);
+    });
+    return true; 
   } else if (message.action === "get_audio") {
-    fetchAudioDataUrl(message.text, sendResponse);
-    return true; // Keep channel open for async response
+    chrome.storage.sync.get({ accentPref: 'en-us' }, (items) => {
+      let langToUse = message.lang || items.accentPref;
+      if (langToUse === 'en') langToUse = items.accentPref;
+      fetchAudioDataUrl(message.text, langToUse, sendResponse);
+    });
+    return true; 
   }
 });
 
-function translateText(text, sendResponse) {
+function translateText(text, targetLang, sendResponse) {
   const normalizedText = text.trim();
   if (!normalizedText) {
     sendResponse({ success: false, error: "No text selected." });
@@ -19,7 +25,14 @@ function translateText(text, sendResponse) {
     sendResponse({ success: false, error: "Please select 5,000 characters or fewer." });
     return;
   }
-  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=fa&dt=t&q=${encodeURIComponent(normalizedText)}`;
+  let finalTargetLang = targetLang;
+  if (targetLang === 'fa') {
+    const rtlRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/;
+    if (rtlRegex.test(normalizedText.substring(0, 50))) {
+      finalTargetLang = 'en';
+    }
+  }
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${finalTargetLang}&dt=t&q=${encodeURIComponent(normalizedText)}`;
 
   fetch(url)
     .then(async response => {
@@ -29,11 +42,12 @@ function translateText(text, sendResponse) {
       }
       const data = JSON.parse(textContent);
       const translatedText = data[0].map(segment => segment[0]).join('');
-      sendResponse({ success: true, translation: translatedText });
+      const detectedSourceLang = data[2] || 'en';
+  sendResponse({ success: true, translation: translatedText, sourceLang: detectedSourceLang, targetLang: finalTargetLang });
     })
     .catch(error => {
       console.warn("Primary translation API failed, trying fallback:", error);
-      const fallbackUrl = `https://translate.google.as/translate_a/single?client=at&sl=auto&tl=fa&dt=t&q=${encodeURIComponent(normalizedText)}`;
+      const fallbackUrl = `https://translate.google.as/translate_a/single?client=at&sl=auto&tl=${finalTargetLang}&dt=t&q=${encodeURIComponent(normalizedText)}`;
       fetch(fallbackUrl)
         .then(async res => {
           const textRes = await res.text();
@@ -51,7 +65,7 @@ function translateText(text, sendResponse) {
     });
 }
 
-function fetchAudioDataUrl(text, sendResponse) {
+function fetchAudioDataUrl(text, accent, sendResponse) {
   const chunks = splitTextForTts(text);
   if (!chunks.length) {
     sendResponse({ success: false, error: "No text selected." });
@@ -62,7 +76,7 @@ function fetchAudioDataUrl(text, sendResponse) {
     return;
   }
 
-  Promise.all(chunks.map(fetchAudioChunk))
+  Promise.all(chunks.map(chunk => fetchAudioChunk(chunk, accent)))
     .then(audioDataUrls => sendResponse({ success: true, audioDataUrls }))
     .catch(error => {
       console.error("TTS fetch failed:", error);
@@ -103,11 +117,11 @@ function splitTextForTts(text) {
   return chunks;
 }
 
-async function fetchAudioChunk(text) {
+async function fetchAudioChunk(text, accent) {
   const encodedText = encodeURIComponent(text);
   const urls = [
-    `https://translate.google.as/translate_tts?ie=UTF-8&tl=en-us&client=tw-ob&q=${encodedText}`,
-    `https://translate.google.com/translate_tts?ie=UTF-8&tl=en-us&client=tw-ob&q=${encodedText}`
+    `https://translate.google.as/translate_tts?ie=UTF-8&tl=${accent}&client=tw-ob&q=${encodedText}`,
+    `https://translate.google.com/translate_tts?ie=UTF-8&tl=${accent}&client=tw-ob&q=${encodedText}`
   ];
   let lastError;
   for (const url of urls) {
@@ -142,7 +156,7 @@ chrome.runtime.onInstalled.addListener(() => {
   try {
     chrome.contextMenus.create({
       id: "about_baboosh",
-      title: "About Baboosh Translate",
+      title: chrome.i18n.getMessage("aboutTitle") || "About Baboosh Translate",
       contexts: ["action"]
     });
   } catch (e) {

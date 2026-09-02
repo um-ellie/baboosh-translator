@@ -1,0 +1,74 @@
+{
+  "extName": {
+    "message": "Baboosh Translate"
+  },
+  "extDescription": {
+    "message": "Pronounce and translate selected text using Google TTS."
+  },
+  "aboutTitle": {
+    "message": "About Baboosh Translate"
+  },
+  "optionsTitle": {
+    "message": "Baboosh Extension Settings"
+  },
+  "audioBehavior": {
+    "message": "Audio Behavior"
+  },
+  "instantAudio": {
+    "message": "Instant Pronunciation"
+  },
+  "instantAudioDesc": {
+    "message": "Play pronunciation audio automatically as soon as the translation popup panel displays."
+  },
+  "onDemand": {
+    "message": "On-Demand Only"
+  },
+  "onDemandDesc": {
+    "message": "Keep it quiet. The pronunciation audio will only trigger when you click the 'Listen' button inside the panel."
+  },
+  "targetLanguage": {
+    "message": "Target Language"
+  },
+  "targetLanguageDesc": {
+    "message": "Select the language you want to translate the text into."
+  },
+  "accent": {
+    "message": "Pronunciation Accent"
+  },
+  "accentDesc": {
+    "message": "Choose between American and British accent for English text."
+  },
+  "accentUS": {
+    "message": "American (US)"
+  },
+  "accentUK": {
+    "message": "British (UK)"
+  },
+  "langFa": {
+    "message": "Persian (فارسی)"
+  },
+  "langEs": {
+    "message": "Spanish (Español)"
+  },
+  "langFr": {
+    "message": "French (Français)"
+  },
+  "langDe": {
+    "message": "German (Deutsch)"
+  },
+  "langZh": {
+    "message": "Chinese (中文)"
+  },
+  "aboutExtension": {
+    "message": "About Baboosh"
+  },
+  "extensionSettings": {
+    "message": "Extension Settings"
+  },
+  "listen": {
+    "message": "Listen"
+  },
+  "langIt": {
+    "message": "Italian (Italiano)"
+  }
+}

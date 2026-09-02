@@ -148,3 +148,52 @@ input:checked + .slider::before {
     border-top-color: #1e293b;
   }
 }
+
+.popup-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #334155;
+  cursor: pointer;
+  outline: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .popup-select { border-color: #475569; color: #e2e8f0; background: #1e293b; }
+  .segment-control { background: #0f172a; }
+  .segment-btn { color: #94a3b8; }
+  .segment-btn.active { background: #334155; color: #f8fafc; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+  .popup-select option {
+    background: #1e293b;
+    color: #e2e8f0;
+  }
+}
+
+.segment-control {
+  display: flex;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.segment-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.segment-btn.active {
+  background: #ffffff;
+  color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}

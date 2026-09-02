@@ -1,0 +1,74 @@
+{
+  "extName": {
+    "message": "ببوش ترنسلیت"
+  },
+  "extDescription": {
+    "message": "ترجمه و تلفظ هوشمند متون انتخاب شده."
+  },
+  "aboutTitle": {
+    "message": "درباره ببوش ترنسلیت"
+  },
+  "optionsTitle": {
+    "message": "تنظیمات افزونه ببوش"
+  },
+  "audioBehavior": {
+    "message": "رفتار پخش صدا"
+  },
+  "instantAudio": {
+    "message": "پخش خودکار (Instant)"
+  },
+  "instantAudioDesc": {
+    "message": "به محض باز شدن باکس ترجمه، تلفظ صوتی به صورت خودکار پخش می‌شود."
+  },
+  "onDemand": {
+    "message": "پخش دستی (On-Demand)"
+  },
+  "onDemandDesc": {
+    "message": "صدا فقط زمانی پخش می‌شود که روی دکمه 'شنیدن' کلیک کنید."
+  },
+  "targetLanguage": {
+    "message": "زبان مقصد"
+  },
+  "targetLanguageDesc": {
+    "message": "زبانی که می‌خواهید متن‌ها به آن ترجمه شوند را انتخاب کنید."
+  },
+  "accent": {
+    "message": "لهجه تلفظ"
+  },
+  "accentDesc": {
+    "message": "بین لهجه آمریکایی و بریتانیایی برای متون انگلیسی انتخاب کنید."
+  },
+  "accentUS": {
+    "message": "آمریکایی (US)"
+  },
+  "accentUK": {
+    "message": "بریتانیایی (UK)"
+  },
+  "langFa": {
+    "message": "فارسی (Persian)"
+  },
+  "langEs": {
+    "message": "اسپانیایی (Spanish)"
+  },
+  "langFr": {
+    "message": "فرانسوی (French)"
+  },
+  "langDe": {
+    "message": "آلمانی (German)"
+  },
+  "langZh": {
+    "message": "چینی (Chinese)"
+  },
+  "aboutExtension": {
+    "message": "درباره ببوش"
+  },
+  "extensionSettings": {
+    "message": "تنظیمات افزونه"
+  },
+  "listen": {
+    "message": "شنیدن"
+  },
+  "langIt": {
+    "message": "ایتالیایی (Italian)"
+  }
+}
