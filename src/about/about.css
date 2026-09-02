@@ -240,3 +240,30 @@ footer {
   margin-top: 0.5rem;
   padding: 0 1rem;
 }
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #818cf8;
+    --primary-dark: #6366f1;
+    --primary-light: rgba(99, 102, 241, 0.15);
+    --primary-lighter: rgba(99, 102, 241, 0.08);
+    --border: #334155;
+    --heart-color: #f87171;
+  }
+  h1 {
+    background: linear-gradient(135deg, #f8fafc, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .credit-link:hover {
+    background: rgba(99, 102, 241, 0.05);
+    border-color: #4f46e5;
+  }
+  .version-tag {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+}

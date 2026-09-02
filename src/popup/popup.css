@@ -116,3 +116,35 @@ input:checked + .slider::before {
   border-top: 1px solid #f1f5f9;
   letter-spacing: 0.02em;
 }
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #0f172a;
+    color: #e2e8f0;
+  }
+  .popup-header {
+    background: linear-gradient(135deg, #4f46e5, #3730a3);
+  }
+  .menu-item {
+    color: #cbd5e1;
+  }
+  .menu-item:hover {
+    background: #1e293b;
+    color: #818cf8;
+    border-left-color: #818cf8;
+  }
+  .slider {
+    background: #475569;
+  }
+  input:checked + .slider {
+    background: #6366f1;
+  }
+  .divider {
+    background: linear-gradient(to right, transparent, #334155, transparent);
+  }
+  .popup-footer {
+    color: #64748b;
+    border-top-color: #1e293b;
+  }
+}
