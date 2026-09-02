@@ -1,3 +1,5 @@
+let shadowHost = null;
+let shadowRoot = null;
 let floatingIcon = null;
 let translateBox = null;
 let selectedTextGlobal = "";
@@ -6,9 +8,32 @@ let activeAudioSource = null;
 let activeHtmlAudio = null;
 let audioPlaybackToken = 0;
 let audioRequestToken = 0;
+let selectionDebounceTimer = null;
+
+function initShadowRoot() {
+    if (shadowHost) return;
+    shadowHost = document.createElement('div');
+    shadowHost.id = 'baboosh-translator-host';
+    // position absolute with size 0, so it doesn't affect page layout
+    // pointer-events none so it doesn't block clicks on the page
+    shadowHost.style.cssText = 'position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: visible; z-index: 2147483647; pointer-events: none;';
+    document.body.appendChild(shadowHost);
+
+    shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+    
+    // Inject styles
+    const styleLink = document.createElement('link');
+    styleLink.rel = 'stylesheet';
+    styleLink.href = chrome.runtime.getURL('src/content/style.css');
+    shadowRoot.appendChild(styleLink);
+    
+    // Inject a local style to re-enable pointer events for the UI components
+    const localStyle = document.createElement('style');
+    localStyle.textContent = '#baboosh-floating-icon, #baboosh-main-box { pointer-events: auto; }';
+    shadowRoot.appendChild(localStyle);
+}
 
 // Resume the Web Audio context while the user is interacting with the page.
-// This keeps automatic pronunciation eligible under modern autoplay policies.
 function unlockAudio() {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
@@ -18,8 +43,6 @@ function unlockAudio() {
     }
 }
 
-// Play TTS audio by fetching a base64 data URL through the background script.
-// This bypasses page CSP/CORS restrictions that would block direct TTS requests.
 function playAudio(text, btnElement = null) {
     const requestToken = ++audioRequestToken;
     if (btnElement) btnElement.classList.add('btPlaying');
@@ -111,6 +134,11 @@ document.addEventListener('selectionchange', () => {
         return;
     }
 
+    clearTimeout(selectionDebounceTimer);
+    selectionDebounceTimer = setTimeout(handleSelection, 200);
+});
+
+function handleSelection() {
     const selection = window.getSelection();
     const text = selection ? selection.toString().trim() : '';
 
@@ -122,27 +150,26 @@ document.addEventListener('selectionchange', () => {
         return;
     }
 
-    // Guard: ensure a range exists before calling getRangeAt()
     if (!selection || selection.rangeCount === 0) {
         return;
     }
 
     selectedTextGlobal = text;
-
     const range = selection.getRangeAt(0);
     const rects = range.getClientRects();
     if (rects.length === 0) return;
 
     const lastRect = rects[rects.length - 1];
 
-    // If the main translation box is already open, don't show the floating icon again
     if (translateBox) return;
+
+    initShadowRoot();
 
     if (!floatingIcon) {
         floatingIcon = document.createElement('img');
         floatingIcon.id = 'baboosh-floating-icon';
         floatingIcon.src = chrome.runtime.getURL('src/assets/icon48.png');
-        document.body.appendChild(floatingIcon);
+        shadowRoot.appendChild(floatingIcon);
 
         floatingIcon.addEventListener('mousedown', (e) => {
             e.preventDefault();
@@ -152,37 +179,31 @@ document.addEventListener('selectionchange', () => {
         });
     }
 
-    // --- INTELLIGENT ICON POSITIONING ---
-    const iconSize = 36; // Matches the 36px width/height from style.css
+    const iconSize = 36;
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const scrollX = window.scrollX;
     const scrollY = window.scrollY;
 
-    // Ideal position: slightly to the right and below the end of the text selection
     let iconLeft = lastRect.right + scrollX + 5;
     let iconTop = lastRect.bottom + scrollY + 5;
 
-    // Boundary Protection: Right edge
     if (iconLeft + iconSize > scrollX + viewportWidth) {
         iconLeft = scrollX + viewportWidth - iconSize - 10;
     }
-    // Boundary Protection: Left edge
     if (iconLeft < scrollX) {
         iconLeft = scrollX + 10;
     }
-    // Boundary Protection: Bottom edge — flip above the selection
     if (iconTop + iconSize > scrollY + viewportHeight) {
         iconTop = lastRect.top + scrollY - iconSize - 5;
     }
-    // Boundary Protection: Top edge
     if (iconTop < scrollY) {
         iconTop = scrollY + 10;
     }
 
     floatingIcon.style.left = `${iconLeft}px`;
     floatingIcon.style.top = `${iconTop}px`;
-});
+}
 
 function showTranslationBox(rect) {
     if (floatingIcon) {
@@ -191,13 +212,10 @@ function showTranslationBox(rect) {
     }
 
     if (!translateBox) {
-        // Keep this popup tied to the selection that opened it. Later selections
-        // must not change the text played by its Listen button.
         const selectedText = selectedTextGlobal;
         translateBox = document.createElement('div');
         translateBox.id = 'baboosh-main-box';
 
-        // Header
         const header = document.createElement('div');
         header.className = 'baboosh-header';
 
@@ -215,7 +233,6 @@ function showTranslationBox(rect) {
         headerTitleWrapper.appendChild(headerText);
         header.appendChild(headerTitleWrapper);
 
-        // Header actions (audio + close buttons)
         const headerActions = document.createElement('div');
         headerActions.style.display = 'flex';
         headerActions.style.alignItems = 'center';
@@ -239,18 +256,15 @@ function showTranslationBox(rect) {
         header.appendChild(headerActions);
         translateBox.appendChild(header);
 
-        // Original selected text
         const sourceText = document.createElement('div');
         sourceText.className = 'baboosh-source-text';
         sourceText.innerText = selectedText;
         translateBox.appendChild(sourceText);
 
-        // Divider
         const divider = document.createElement('hr');
         divider.className = 'baboosh-divider';
         translateBox.appendChild(divider);
 
-        // Translation output (spinner while loading)
         const targetText = document.createElement('div');
         targetText.className = 'baboosh-target-text';
         const spinner = document.createElement('div');
@@ -258,14 +272,12 @@ function showTranslationBox(rect) {
         targetText.appendChild(spinner);
         translateBox.appendChild(targetText);
 
-        document.body.appendChild(translateBox);
+        shadowRoot.appendChild(translateBox);
 
-        // Prevent mousedown inside the box from dismissing it
         translateBox.addEventListener('mousedown', (e) => {
             e.stopPropagation();
         });
 
-        // Auto-play audio if the user's preference is set to 'auto'
         try {
             chrome.storage.sync.get({ audioPref: 'auto' }, (items) => {
                 if (items.audioPref === 'auto') {
@@ -273,10 +285,9 @@ function showTranslationBox(rect) {
                 }
             });
         } catch (err) {
-            console.warn("Auto-play preference check failed (context likely invalidated):", err);
+            console.warn("Auto-play preference check failed:", err);
         }
 
-        // Manual playback via the Listen button
         audioBtn.addEventListener('click', (e) => {
             e.preventDefault();
             try {
@@ -287,7 +298,6 @@ function showTranslationBox(rect) {
             }
         });
 
-        // Request translation from background
         try {
             chrome.runtime.sendMessage({ action: "translate_text", text: selectedText }, (response) => {
                 targetText.innerHTML = '';
@@ -296,7 +306,6 @@ function showTranslationBox(rect) {
                 } else {
                     targetText.innerText = response && response.error ? response.error : "Translation error.";
                 }
-                // Recalculate position after translation text arrives and box height changes
                 repositionBox(rect);
             });
         } catch (err) {
@@ -305,12 +314,9 @@ function showTranslationBox(rect) {
         }
     }
 
-    // Initial position
     repositionBox(rect);
 }
 
-// Positions (or repositions) the translation box relative to the selection rect.
-// Called both on initial render and after translation content loads.
 function repositionBox(rect) {
     if (!translateBox) return;
 
@@ -322,16 +328,13 @@ function repositionBox(rect) {
     const scrollX = window.scrollX;
     const scrollY = window.scrollY;
 
-    // Default: directly below the selection
     let left = rect.left + scrollX;
     let top = rect.bottom + scrollY + 8;
 
-    // Flip above if overflowing bottom
     if (top + boxHeight > scrollY + viewportHeight) {
         top = rect.top + scrollY - boxHeight - 8;
     }
 
-    // Right/left boundary clamp
     if (left + boxWidth > scrollX + viewportWidth) {
         left = scrollX + viewportWidth - boxWidth - 16;
     }
@@ -339,7 +342,6 @@ function repositionBox(rect) {
         left = scrollX + 16;
     }
 
-    // Top boundary safety fallback
     if (top < scrollY) {
         top = scrollY + 8;
     }
@@ -350,13 +352,11 @@ function repositionBox(rect) {
 
 // Dismiss popups when clicking outside them
 document.addEventListener('mousedown', (e) => {
-    if (floatingIcon && !floatingIcon.contains(e.target)) {
-        floatingIcon.remove();
-        floatingIcon = null;
+    // If the click is inside the shadow DOM (like on our popup or icon), do nothing.
+    if (shadowHost && e.composedPath().includes(shadowHost)) {
+        return;
     }
-    if (translateBox && !translateBox.contains(e.target)) {
-        removeAllPopups();
-    }
+    removeAllPopups();
 });
 
 function removeAllPopups() {

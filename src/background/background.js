@@ -75,8 +75,22 @@ function splitTextForTts(text) {
   const words = text.trim().split(/\s+/);
   const chunks = [];
   let chunk = '';
+  
   for (const word of words) {
-    if (word.length > maxLength) return [];
+    if (word.length > maxLength) {
+      // Word is too long, must split it
+      if (chunk) {
+        chunks.push(chunk);
+        chunk = '';
+      }
+      let remainingWord = word;
+      while (remainingWord.length > 0) {
+        chunks.push(remainingWord.substring(0, maxLength));
+        remainingWord = remainingWord.substring(maxLength);
+      }
+      continue;
+    }
+    
     const candidate = chunk ? `${chunk} ${word}` : word;
     if (candidate.length > maxLength) {
       chunks.push(chunk);
@@ -143,3 +157,9 @@ chrome.contextMenus.onClicked.addListener((info) => {
     });
   }
 });
+
+
+// Export for testing
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { splitTextForTts };
+}
